@@ -94,7 +94,8 @@ const config = {
     		"/codeblock"
 		],
     	"collapsedNav": [
-      		"/codeblock"
+			  "/codeblock",
+			  "/practical_guide_to_algorithms"
     	],
 		"links": [
 			{ "text": "", "link": ""},

@@ -6,10 +6,10 @@ This gitbook was created using Hasura's gitbook Gatsby starter. The setup and in
 ## Todo
 - [x] Loose color config and settings
 - [x] Include React collapsible lib for review questions
+- [x] Fix logos/favicons; proper setting of themes
 - [ ] Populate with older notes/entries
 - [ ] Maybe setup docker env 
 - [ ] Signup for Angolia and add creds to docker env
-- [ ] Fix logos/favicons; proper setting of themes
 
 # gatsby-gitbook-starter
 

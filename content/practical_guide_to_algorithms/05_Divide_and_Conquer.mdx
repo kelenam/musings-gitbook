@@ -1,0 +1,308 @@
+---
+title: "Divide & Conquer"
+metaTitle: "Divide & Conquer: Introduction to A Practical Guide to Algorithms with JavaScript from Frontend Masters"
+---
+import Collapsible from 'react-collapsible';
+
+## Introducing Divide & Conquer
+**Divide and Conquer** is a recurisve technique for taking a problem and breaking it into subproblems and doing work on each of those subproblems to reach some solution.
+- classic example of D&C is binary search.
+- **Binary Search**: search for a value in a *sorted* array by cutting the side of the search area in half.
+- ✨The reason this algorithm is so important is that it takes something that's linear and turns it into logarithmic time. 
+- How do we know its logarithnmic time? Because the work that we have to do is cut in half every single time 
+  - The dataset we are evaluating for our number decreases by half every time.
+  - If you get an interview question that says: "given a sorted array" you should already be thinking "Binary search", 'sorted' is the clue.
+    - Or if they say, you're searching in array, you as the interviewee can ask, is that array sorted? if it is binary search is the way to go. 
+
+- Linear search is an alternative, where you just loop through your list and look for that number. 
+## Linear Search Exercise
+```javascript
+// TASK: Implement linear search.
+
+// USING A REGULAR FOR LOOP
+//
+// const linearSearch = (list, item) => {
+//   for (let i = 0; i < list.length; i++) {
+//     if (list[i] === item) {
+//       return item;
+//     } 
+//   }
+// };
+
+// Using functional approach with forEach
+//
+// const linearSearch = (list, item) => {
+//   let found;
+//   list.forEach(val => {
+//     console.log(val);
+//     if (val === item) {
+//       found = item;
+//     }
+//   })
+//   return found; 
+// };
+
+// Using for of?
+//
+  // function linearSearch(list, item) {
+  //   for (let val of list) {
+  //     console.log(val)
+  //     if (val === item) {
+  //       return item;
+  //     }
+  //   }
+  // }
+
+//Using for in
+// 
+// function linearSearch(list, item) {
+//   for (let index in list) {
+//     if (list[index] === item) {
+//       return item;
+//     }
+//   }
+// }
+
+// USING RECURSION
+//
+function linearSearch(list, item) {
+  // 1. What is base case/  
+  // We want to stop when we find the item
+  // 2. What are cursive cases?
+  // Checking if item is the current in the liste
+  // 3. Return where appropriate 
+  // return recurse search until item found
+  // 4. What procedure gets us closer to our base case?
+  // increment towards completion of array
+  let counter = 0;
+
+  const recursiveSearch = () => {
+    if (item === list[counter]) {
+      return item;
+    } else {
+      counter++; 
+      return recursiveSearch()
+    }
+  }
+
+  return recursiveSearch();
+
+}
+
+
+linearSearch([2,6,7,90,103,199,298], 90);
+```
+I did a couple of implementations with different loops, but I need to optimize to exit the loop as soon as the value is found.
+- I learned that the for...in loop (which I guess isn't depricated, that might have been forEach in?), actually provides the index as the value for your named var in the loop, in the instance above, `let index`, 
+- that's weird, I guess, it was working as I expected, I thought I checked last night and for some reason return wasn't just immediately ejecting us out of the function like I expected it to. Maybe it was the Repl.it editor as I was having trouble with thinking code was run when it wasn't and the consoloe wasn't clearered. 
+- You can't break stop a `forEach` from running to completion. break doesn't work inside of it, you could do a try catch block which is 
+- I think more obviously the best exercise to try is the recursive approach! so let's do that now. 
+> One of the mistakes I had made was that I was saying return instead of const for the recursiveSearch declaration, so what was being returned was simply the function description, it never gets to the lower return recursiveSearch. Was kind of mixing myself up a bit. 
+> I haven't quite understood how to bridge memoization and recursion, they look very similar in their construction at least how I've implemented them below...
+```js
+function linearSearch(list, item) {
+
+  let counter = 0;
+
+    const recursiveSearch = () => {
+        if (list[counter] === item) {
+            return item;
+        } else {
+            counter++;
+            return recursiveSearch()
+        }
+    };
+
+    return recursiveSearch();
+
+};
+
+const memoization = (n) => {
+
+  const cache = {};
+  
+  return () => {
+    if (n in cache) {
+      console.log('fetching from cache', n);
+      return n;
+    } else {
+      cache[n] = n
+      console.log('adding to cache', n);
+      return cache[n];
+    }
+  }; 
+
+};
+
+```
+- For now I'm moving on.
+
+## Linear Search Solution
+```js
+// Bianca's solution
+
+function linearSearch(list, item) {
+    // common to set index starting at -1 as not found, since arrays are 0 indexed
+    let index = -1;
+    list.forEach((listItem, i) => {
+        if (listItem === item) {
+            index = i;
+        }
+    });
+    return index;
+}
+
+linearSearch([2,6,7,90,103,199,298], 90);
+```
+- `forEach`, remember, also passes the index as the second arg and the list as the third.
+- Bianca says, something to consider: "if you have multiple 90s in this list, how do you handle that?
+    - do you want to return the first one? the last one?
+    - these are thigns that you should be asking your interviewer.
+> I just realized that I really didn't read the prompt! Really big no no! Make sure you know what is being asked. And actually think about it. Does it make sense to be returning the value that was being specified, 90? Not really. What would be important is the location in which the item being search for is found. Not the value itself. 
+  - Modifying my responses above, just change the return of item to whatever my counter is. Even still, while the fix is simple, it's really really important to clarify what the inputs/outputs are.
+
+> So me getting stuck on memoization and recursion, check out this article...
+https://rayhightower.com/blog/2014/04/12/recursion-and-memoization
+
+- Bianca clarifies that forEach is just a loop under the hood, and that the complexity emerges depending on what we are doing in the callback, since our callback is relatively simple it's still technically just a loop since the additional operations are constants our time compleixity is comparable to a loop.
+
+## Binary Search
+
+```js
+// My broken attempt
+const binarySearch = (list, item) => {
+  
+  //if (list.length % 2)
+  const half = Math.floor(list.length/2);
+
+
+  if (item === list[half]) {
+    return half;
+  } else if (item < list[half]) {
+    const lowerHalf = list.slice(0, half);
+    console.log(lowerHalf)
+    //return binarySearch(lowerHalf);
+  } else {
+    const upperHalf = list.slice(half);
+    console.log(upperHalf)
+    //return binarySearch(upperHalf);
+  }
+}
+
+binarySearch([2,6,7,90,103, 104,105], 90); 
+
+// Bianca's solution
+function binarySearch(list, item) {
+    let min = 0;
+    let max = list.length - 1;
+    let guess;
+
+    while (min <= max) {
+        guess = Math.floor((min + max) / 2);
+
+        if (list[guess] === item) {
+            return guess;
+        } else {
+            if (list[guess] < item) {
+                min = guess + 1;
+            } else {
+                max = guess - 1;
+            }
+        }
+    }
+}
+
+binarySearch([2,6,7,90,103, 104,105], 90); 
+```
+- Common for Divide and Conquer approach to look at the middle first. 
+- Some time you might start at the end with things like quicksort, usually it's the middle but not always the case. 
+
+## Divide & Conquer Review
+
+Recursive calls to a subset of the problem.
+0. Recognize base case
+1. Divide: Break problem down during each call
+2. Conquer: Do work on each subset
+3. Combine: Solutions 
+
+## Sorting Types
+We already talked about linear search and binary search.
+
+Two main types of sorting...
+
+**Naive Sorts** : Keep looping and comparing values until the list is sorted, 
+- Going to be quadratic time O(n^2)
+- You can imagine these are going to have two loops involved.
+Examples...
+- Bubble Sort
+- Insertion Sort
+- Selection Sort 
+
+**Divide & Conquer Sorts**: Recursively divide lists and sort smaller sparts of the list utnil entire list is sorted
+- Going to be O(nlogn)
+- The reason that sorting is always going to have some n for comparison sorts (there are non-comparison sorts that we won't talk about today). There will always be some comparison being made at some point so its never going to be less than n (everything), it's never going to be less than linear.
+- So typically at best things aren't going to get much better than nlogn which is what these divide and conquer algorihms do, where we have to look at everything but we don't have to compare everything to everything else to sort it (like naive sorts)
+Examples...
+- Mergesort
+- QuikSort
+
+Searching and sorting are pretty time intensive operations and very ubiquitous in the programming world.
+- a lot of searching is combined with a particular data structure and how you get to your solution depends on the data structure (binary search with trees)
+
+![](https://user-images.githubusercontent.com/5563119/69505213-90e96e80-0edd-11ea-9bb3-4a230c945e7f.png)
+- Bubble sort compares adjacent indicies and bubbles up the biggest.
+- Insertion essentially sorts and pushs sorted to new list
+- Merge sort, sorts two sorted lists. Merge Sort recursively merge sorted sub-lists.
+    - For the merge sort, we can see how we are splitting the sorting in half, that's the log part, but the end
+    - that last loop the merge after the two sorted lists come together is the linear part, the n in the nlogn.
+
+## Merge Sort
+![](https://user-images.githubusercontent.com/5563119/69505231-aced1000-0edd-11ea-8c41-20b6b96cb284.png)
+
+- During the merge step, you have two pointers (pointers in our case that just means we are keeping track of some sort of index ) 
+    - When you are working with link lists, you are doing a lot of things with two pointers. 
+    - Sometimes that means you have a nested loops, right, with indicies being tracked
+    - it could also be a variable with two indicies being tracked.
+    - so we have two pointers. one looks at the beginning of the first sorted array, the other at the second. 
+    - So then we ask, at the beginning of each step, which is less. 
+    - we create a new array each time each of these steps were creatring a new array, this is not an in place sort so there are memory considerations to make
+    - This merge step is the conquer part of the divide and conquer portion of the strategy.
+
+### Pseudocode: Merge Routine
+```
+merge(L,R)
+// [3,27] //[9,10]
+// initialize empty array 
+// compare the first index of the left array
+// to the first index of the right array
+// push the lower value to the empty array
+// shift the array with lower value (removes the first lower,pushed value)
+// repeat until both arrays are empty
+```
+The above was the meat of the merge sort
+
+### Concept:  Merge Sort
+Step 1:
+Diviide input array into 'n' single element subarrays
+Our base case is when the length of that array is equal to 1, b/c we are going to start returning from that. when we start returning that is when we start the merge. 
+
+## Merge Sort Walkthrough
+### Pseudocode: Merge Sort
+```
+mergeSort(list)
+    base case: if list.length < 2, return
+    break the list into halves L & R
+    Lsorted = mergeSort(L)
+    Rsorted - mergeSort(R)
+    return merge(Lsorted, Rsorted);
+```
+Checkout the call stack game working through the pseudocode, it's pretty good and helpful...
+A Practical Guide to Algorithms with JavaScript > Merge Sort Walkthrough
+
+![](https://user-images.githubusercontent.com/5563119/69505624-b24b5a00-0edf-11ea-9b27-e4d30ae553a2.png)
+
+## Bubble Sort & Merge Sort Exercise
+## Bubble Sort Solution
+## Merge Sort Solution
+
+**COME BACK TO THIS EXERCISE**

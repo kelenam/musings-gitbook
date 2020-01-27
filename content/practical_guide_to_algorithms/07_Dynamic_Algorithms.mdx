@@ -1,0 +1,74 @@
+---
+title: "Dynamic Algorithms"
+metaTitle: "Dynamic Algorithms: Introduction to A Practical Guide to Algorithms with JavaScript from Frontend Masters"
+---
+import Collapsible from 'react-collapsible';
+
+## Introducting Dynamic Programming
+An optimization technique, kind of like caching was an optimization, this is going to build on our recursive makeChange and brute force example. 
+**Dynamic Approach**: Cache values to avoid repeated calculations. 
+- like we memoized the factorial early, that was a dynamic programming solution. 
+- the reason why dynamic programming is called dynamic programming (it's kind of a misnomer like JS) is just marketing essentially for a guy wanting to get a government research grant. 
+
+✨**You can think of dynamic programming essentially as just caching**. 
+- if you have a solution that you can cache, that's dynamic programming.  
+- there are a coupjle of different ways you can cache your different solutions...
+    - *the top-down recursive approach*, where we start from the top, our sort of end result (12 in our makeChange example), and we break it up into smaller pieces and we cache if we recalculate something. 
+    - *bottom-up iterative technique*, where you can translate the recursion into an iterative solution starting from the simplest problem which would be 0 in our make change example 
+    - that's really the key to dynamic programming, is just this memoization step. 
+
+Dynamic programming not that hard, the hard part is the recursion and the reasoning about these subproblems and being able to trace through our minds how this code will execute. 
+    - The way to get through that really is through practicing recursion and better improving your mental model of how code executes.
+    - for instance, doing things liek the call stack game on your own, or rubber ducky or talking out loud what you are doing.
+
+Biana: I think an anti-pattern in learning is to type something and hit play right without thinking or reasoning about your expectations.
+In an interview session you might not even have a text editor, it just might be a whiteboard or a google doc, you need to get good at debugging in your head.
+
+Good pracice is to select some inputs (nothing too simple, because simple inputs tend to hide edge cases) so use a decently complex input. 
+
+### The Difference between Dynamic Programming and a Divide and Conquer Approach 
+
+✨ **They are both still recursive approaches one of them has some repeated calculation that you can cache and access (DP) while the other, (DC) you can't, you have to just go through it each time**.
+
+Dynamic Programming qualities:
+- Optimal substructure (tends to be recursive)
+- overlapping subproblems (like makeChange, repeated calculations)
+    - versus Dividie and Conquer Merge Sort (that merge step isn't overlapping, each step has to be done individually and its' going to change every time)
+
+Dynamic Programming Approaches:
+- Top Down (recursive) vs Bottom Up (iterative)
+
+## Memoization with Recursion
+- So note, global cache here (bad practice) other optimizations could be made here, but focusing on caching...
+```js
+const cache = {};
+const coins = [10, 6, 1];
+
+const makeChange = (c) => {
+  // Return the value if it’s in the cache
+  if (cache[c]) return cache[c];
+
+  let minCoins = -1;
+
+  // Find the best coin
+  coins.forEach(coin => {
+    if (c - coin >= 0) {
+      let currMinCoins = makeChange(c - coin);
+      if (minCoins === -1 || currMinCoins < minCoins) {
+        minCoins = currMinCoins
+      }
+    }
+  })
+
+  // Save the value into the cache
+  cache[c] = minCoins + 1;
+  return cache[c];
+}
+
+console.log(makeChange(12));
+```
+**COME BACK TO THIS EXERCISE** 
+
+## The Landscape of Data Structures & Algorithms
+
+Just wrapping up notes. 

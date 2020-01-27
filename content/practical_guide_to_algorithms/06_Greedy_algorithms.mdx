@@ -1,0 +1,97 @@
+---
+title: "Greedy Algorithms"
+metaTitle: "Greedy Algorithms: Introduction to A Practical Guide to Algorithms with JavaScript from Frontend Masters"
+---
+ 
+## Introducing Greedy
+Greedy algorithms, take the short sighted solution given a decision. Given a decision, it's going to do the one that looks like the best decision at that time without considering the big picture. Like a toddler. 
+
+### Greedy Approach
+**Greedy algorithms** always make the locally optimal choice.
+
+![](https://user-images.githubusercontent.com/5563119/69505795-91373900-0ee0-11ea-8e82-255420db8621.png)
+**Weighted graph**, (or let's just think of it as a map.)
+- So the greedy algorithm is going to just take a -> c, c -> b, b -> e, e -> f, f -> g, for a total of 16 units   
+- versus just doing the optimal math of going from a to b, to e to g. for a "distance" of 12 units.  
+
+- ✨ This may paint greedy algorithms poorly, but there is a time and place for them. For instance, when your dataset is so big you can't think of all the different scenarios because it's just computationally too much.  
+    - It's better to have A solution than NO solution at all
+
+## Greedy Algorithms Walkthrough
+- commonly used as coins or making change example,the question will usually be formatted so that you need to minimize or maximize something.
+- in our example we are looking for the minimum of coins to add up to an amount. 
+
+### Solution 
+```js
+// Write a function, makeChange, that returns an integer that represents the least number of coins that add up to an amount where the amount is always divisible by 5.
+
+// coin values: 5, 10, 25
+
+const makeChange = (coins, amount) => {
+  coins.sort((a, b) => b - a);
+  let coinTotal = 0;
+  let i = 0;
+  while (amount > 0) {
+    if (coins[i] <= amount) {
+      amount -= coins[i];
+      coinTotal++;
+    } else {
+      i++;
+    }
+  }
+  return coinTotal;
+};
+
+makeChange([5, 10, 25], 50);
+
+
+// input amount: 40 , output # of coins: 3 (25, 10, 5)
+// input amount: 35, output # of coins: 2 (25, 10) 
+```
+## Brute Force
+So this is where greedy starts to break down, why its not recommended for interview settings b/c while it could be correct. it's hard to prove that its correct and that's just part of greedy algorithm right. Becaues you have to think of all the scenarios where it isn't correct. 
+- With the greedy approach you actually have to ask, is the local solution actually the globally optimal solution?
+- e.g. job scheduling problem when we are talking about algorithms. 4 ways to do it, 3 of them are wrong.
+- if it seems like its a greedy algorithm problem, know that theres a lot of ways you can go wrong. 
+    - this is why Bianca thinks better to just brute force.
+
+![](https://user-images.githubusercontent.com/5563119/69506168-40c0db00-0ee2-11ea-83c9-10bf962c15ae.png)
+
+✨ **Brute Force Approach**: Calculate every single combination possible and keep track of the minimum.
+So in an interview, maybe just say, first we are going to brute force than optimize later. 
+
+In our graphic above, we are using a recursive approach.   
+The first step, we can substract all three and add up the one that is the least. 
+
+So we're going to go down to each of these decision trees and add up the one that is the least. And you can kind of see the depth of the recursion for 
+each decision tree is the same as the number of decisions that are made. So you can see that our best solution is 12-6-6, which is two coins. 
+
+Let's take a look at the code and play the call stack game. 
+
+```js
+// Write a function, makeChange, that returns an integer that represents the least number of coins that add up to the amount, n.
+let recursionCounter = 0;
+const coins = [10, 6, 1];
+
+const makeChange = (value, i) => {
+  recursionCounter++;
+  console.log(`${recursionCounter}: calling ${value} at ${i}`)
+  if (value === 0) return 0;
+  let minCoins;
+  coins.forEach((coin, i) => {
+    if (value - coin >= 0) {
+      let currMinCoins = makeChange(value - coin, i);
+      if(minCoins === undefined || currMinCoins < minCoins) {
+        minCoins = currMinCoins;
+      }
+    }
+  });
+  return minCoins + 1;
+};
+
+makeChange(10);
+```
+A Practical Guide to Algorithms with JavaScript Brute Force 
+https://frontendmasters.com/courses/practical-algorithms/brute-force/
+**COME BACK TO THIS EXERCISE**
+- so given large datasets greedy might the solution, but again they may certainly not always be the most optimal 

@@ -1,5 +1,6 @@
 ---
 title: "Recursion"
+metaTitle: "Recursion: Introduction to A Practical Guide to Algorithms with JavaScript from Frontend Masters"
 ---
 import Collapsible from 'react-collapsible';
 
