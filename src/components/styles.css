@@ -332,7 +332,7 @@ pre {
 }
 
 .mainWrapper ul li, .mainWrapper ol li {
-  font-size: 16px;
+  font-size: 1em;
   line-height: 1.8;
   font-weight: 400;
 }

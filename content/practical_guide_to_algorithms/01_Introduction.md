@@ -1,0 +1,24 @@
+---
+title: "Introduction"
+metaTitle: "Introduction to A Practical Guide to Algorithms with JavaScript from Frontend Masters"
+---
+
+## Intro to Algorithms
+A practical Introduction to Algorithms
+
+Just steps you take to solve a problem
+
+## Why should you care?
+Because we are engineers and we solve problems for a living, being better at solving problems means we are better at what we do.
+
+## What will we cover today?
+1. Estimate generally how fast an algorithm is
+2. Use some techniques to optimize certain  types of algoirthms
+3. Get comfortable with recursion
+4. Implement a couple sorting and searching algorithms.
+5. Understand the difference between Divide & Conqeur and Dynamic Programming
+6. Learn about the pros and cons of the Greedy technique.
+7. Cover a recursive brute force algorithm.
+
+ 
+

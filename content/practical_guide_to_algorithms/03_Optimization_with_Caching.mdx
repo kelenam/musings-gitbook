@@ -1,0 +1,480 @@
+---
+title: "Optimization with Caching"
+---
+import Collapsible from 'react-collapsible';
+
+## Faster Algorithms
+Let's take a look at how we might optimize an algorithm.
+
+### Time Complexity of this?
+```js
+const isUnique = (arr) => {
+  let result = true;
+  
+  for (let i = 0; i < arr.length; i++) {
+    console.log(`~~~~ OUTER LOOP ~~~~ i === ${i}`);
+
+    for (let j = 0; j < arr.length; j++) {
+      console.log(`~~~~ INNER LOOP ~~~~ j === ${j}`);
+      if (i !== j && arr[i] === arr[j]) {
+        result = false;
+      }
+    }
+  }
+  
+  return result;
+};
+
+console.log(isUnique([1,2,3]) === true);
+// console.log(isUnique([1,1,3]) === false);
+```
+I'm going to say quadratic time O(n^2)
+
+### Caching or Breadcrumbing
+- **Caching** or breadcrumbing (as it can be informally called) as it related to TC is the idea of, "once we see something, we save it"
+    - By saving it, we can just do a property look up on an object which is a constant time operation. 
+
+We can do better than nested loops with caching:
+```js
+isUnique = (arr) => {
+  const breadcrumbs = {};
+  let result = true;
+  
+  for (let i = 0; i < arr.length; i++) {
+    console.log(`~~~~ LOOP ~~~~ i === ${i}`);
+    if (breadcrumbs[arr[i]]) {
+      result = false;
+    } else {
+      breadcrumbs[arr[i]] = true;
+    }
+  }
+  
+  return result;
+};
+
+console.log(isUnique([1,2,3]) === true);
+// console.log(isUnique([1,1,3]) === false);
+```
+## Unique Sort Exercise
+Here is the prompt: https://slides.com/bgando/intro-to-algorithms/#/2/3
+```js
+//Task: Transform this simple sorting algorithm into a unique sort. 
+// It should not return any duplicate values in the sorted array.
+
+//input: [1,5,2,1] => output: [1,2,5]
+//input: [4,2,2,3,2,2,2] => output: [2,3,4]
+
+const uniqSort = function(arr) {
+    const breadcrumbs = {};
+    
+    return arr.sort((a, b) => a - b);
+};
+
+uniqSort([4,2,2,3,2,2,2]); // => [2,3,4]
+```
+- native js sort on line 300, we specify a - b to mean ascending order, to reverse the order you would say b - a. You can checkout more on how it works on MDN.
+- I struggled with this a bit. I'll come back to it after.
+
+## Unique Sort Solution
+```js
+const uniqSort = function(arr) {
+    const breadcrumbs = {};
+    const result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        if (!breadcrumbs[arr[i]]) {
+            result.push(arr[i]);
+            breadcrumbs[arr[i]] = true;
+        }
+    }
+    return result.sort((a ,b) => a - b);
+}
+
+uniqSort([4,2,2,3,2,2,2]) // => [2,3,4 ]
+```
+- This is algorithm speeds up our time complexity, but it does something with our space complexity.
+- So as in rows, we are caching more values to our breadcrumb object which means we have a linear space complexity that we need to consider with this algorithm.
+- we are doing the tradeoff of time vs. space., in most cases this is fine, but just something to be aware of.
+- so the task here was implementing a unique sorting algorithm which means taht we want to return an array with no duplicates
+  - any duplicates we want to ignore  
+  - first thing we want to do is, we're gonna set up our breadcrumbs object here, here you can also call this cache if you want
+      - this is where we are going to keep track of all values that we've seen before
+      - if we've seen it before and we've come across it again we know that we don't need to push that value to our result
+  - the next thing we do is create an array to keep track of our values, note that this is also a space consideration, we are creating a new array that we are pushing into.
+  - so here `if (!breadcrumbs[arr[i]])` on our first pass through, i is 1, we've initialized it as empty, so what we are saying here is ...
+      - is essentially... what is `breadcrumbs[2]`? Which is going to be `undefined` b/c breadcrumbs is empty at this point
+  - Student: "this is where I'm getting tripped up, so it's an object, I'm used to thinking of an object as a key value pair, right? So how are we saving this? Are we saying this index of i? This is the value?
+      > So I had the same inclination, and wanted to think of breadcrumbs as an array, however, as fundamentals --> functional, we were reminded of our bracket versus dot notation, and that property names of objects are strings. Meaning, we can also using bracet notation, because numbers are not valid variable names, we convert something like breadcrumbs[2] to mean breadcrumbs with a string property of "2". Which if we look it up, is going to be `undefined`.
+  - So our if() is forcing this into a boolean, and so `undefined` is going to be false, so with the `!` operator we are making the condition true 
+      - since this condition is true we are going to enter into the body of this `if` block,
+  - and since we haven't seen that item before we are going to push that item into our result array
+      - so now, our result array has `[4,2]`, at this point our cache('breadcrumbs') is empty.
+  - Following the push we are going to run the constant time operation where we are saving a value to our breadcrumbs object and we are giving it the object true : `{2: true}`
+      - that way, when we run into this condition again, we look up 2 in the very next one. and we do that lookup of `breadcrumbs[2]`, we can see that it does exist (since we just created in the previous loop), and since it is equal to true, we negate it with `!` so the condition evaluates to false, and the body of the if statement does not run this time. 
+- something pretty interesting is that Bianca in her example made the array start at 1 with the first value array value being in the results array, this made for a bug where the first value 4, would be added twice. It's intersting b/c I don't know why she decided that approach, it seemed odd from the beginning because it didn't seem like much of an "optimization" or doing anything that beneficial, and in fact ended up being something counter-productive.
+
+- Something else to think about: the problem of objects, the keys of an object are always a string. and so it might be wise to JSON.stringify a value before you save it as a key in an object otherwise you can use a different data structure, like in ES6 you can use a Map data structure where the keys can have different values, not just a string. 
+
+- This example was a way we could speed up our algorithm from quadratic to linear. 
+- final notes, our sorting function is somewhat complex but in general we can think of sorting as being nlogn in a general sense. 
+
+## Caching with Memoization
+We were talking about using the breadcrumb method to cache values that we've seen before to optimize our unique function.
+
+**Memoization: caching the value that a function returns.** 
+- Memoization is a type of caching, the difference is that our bread crumb value was caching a value that wasn't a result of a function return, memoization is.
+    - we previously did array at i and saved that value into our breadcrumbs object, 
+    - if we're caching the result of a function we would call that memoization.
+### Memoization
+```js
+const factorial = (n) => {
+    // Calculations: n * (n -1) * (n-2) * ... (2) * (1)
+    return factorial;
+}
+
+factorial(35);
+```
+
+<Collapsible trigger="What is memoization?" transitionTime="135">
+   form of caching that caches the return from a function. 
+</Collapsible>
+
+- The concept of caching and memoization are often conflated 
+- At the most basic level, **caching** (at least in JS) is saving something into an object or an array. 
+    - That's all caching. Not saved on disk, it's in memory.
+- Factorial n is n to the bang, or n! like 5! which is 5 * 4 * 3 * 2 * 1. 
+- With factorials we are doing the same calcs over and over againg so intead of recalculating there sult of this (it's actually recurisve) we could just **memoize** it, which means we're going to save the results of the factorial function into an object.
+- very similar to breadcrumb, just where the value comes from differs
+ 
+> Whew, it took me a second, but I remembered how to do factorials recursively: 
+```js
+const factorial = (n) => {
+  if (n <= 1) {
+    return n * 1;
+  }
+  return n * factorial(n -1);
+}
+
+ 
+factorial(3)
+```
+Here is how I did. 
+
+## Basic Memoization Exercise
+```js
+// Task 1: Write a function, times10, that takes an argument, n, and multiples n times 10
+// a simple multiplication fn
+const times10 = (n) => {
+    return n * 10;
+};
+
+console.log('~~~~~~~~~~~~~~TASK 1~~~~~~~~~~~~~~');
+console.log('times10 returns:', times10(9));
+
+// Task 2: Use an object to cache the results of your times10 function. 
+// protip 1: Create a function that checks if the value for n has been calculated before.
+// protip 2: If the value for n has not been calculated, calculate and then save the result in the cache object.
+
+const cache = {};
+
+const memoTimes10 = (n) => {
+
+
+    if (!cache[n]) {
+        cache[n] = times10(n);
+        return "calculated";
+    } else {
+        return "cached";
+    }
+}
+
+console.log('~~~~~~~~~~~~~~TASK 2~~~~~~~~~~~~~~');
+console.log('Task 2 calculated value:', memoTimes10(9));	// calculated
+console.log('Task 2 cached value:', memoTimes10(9));	// cached
+console.log(cache[9])
+```
+
+## Basic Memoization Solution
+```js
+// Task 1: Write a function, times10, that takes an argument, n, and multiples n times 10
+// a simple multiplication fn
+const times10 = (n) => {
+    return n * 10;
+};
+
+console.log('~~~~~~~~~~~~~~TASK 1~~~~~~~~~~~~~~');
+console.log('times10 returns:', times10(9));
+
+// Task 2: Use an object to cache the results of your times10 function. 
+// protip 1: Create a function that checks if the value for n has been calculated before.
+// protip 2: If the value for n has not been calculated, calculate and then save the result in the cache object.
+
+const cache = {};
+
+const memoTimes10 = (n) => {
+    if (n in cache) {
+        console.log('Fetching from cache:', n);
+        return cache[n];
+    } else {
+        console.log('Calculating result');
+        let result = times10(n);
+        cache[n] = result;
+        return result;
+    }
+};
+
+console.log('~~~~~~~~~~~~~~TASK 2~~~~~~~~~~~~~~');
+console.log('Task 2 calculated value:', memoTimes10(9));	// calculated
+console.log('Task 2 cached value:', memoTimes10(9));	// cached
+console.log(cache[9])
+```
+- At `let result = times10(n);` we are calling our function times10, and in the line below that we are saving `result` in our cache. 
+- And, this is important, we are also going to return that result so that when we're interacting with this, it's actually returning 90
+every time because that is what we are interested in, when we are consuming method we want to get that result so don't forget to return that result.
+> I was missing the returned result 
+
+- The reason that we are using bracket notation instead of cache.n is because n is a variable name, and if we are using a property name that is a variable we have to use brackets.
+
+## Memoization with Closure Example
+```js
+const times10 = (n) => (n * 10);
+
+// Task 3: Clean up your global scope by moving your cache inside your function.
+// protip: Use a closure to return a function that you can call later.
+
+const memoizedClosureTimes10 = () => {
+  const cache = {};
+
+  return (n) => {
+    if (cache[n]) {
+      console.log('cached'); 
+      return cache[n];
+    } else {
+      cache[n] = times10(n);
+      console.log('calculated');
+      return cache[n];
+    }
+  }
+
+
+};
+
+const memoClosureTimes10 = memoizedClosureTimes10();
+console.log('~~~~~~~~~~~~~~TASK 3~~~~~~~~~~~~~~');
+try {
+  console.log('Task 3 calculated value:', memoClosureTimes10(9));	// calculated
+  console.log('Task 3 cached value:', memoClosureTimes10(9));	// cached
+} catch(e) {
+  console.error('Task 3:', e);
+}
+
+```
+
+## Memoization with Closure Solution
+```js
+const times10 = (n) => (n * 10);
+
+// Task 3: Clean up your global scope by moving your cache inside your function.
+// protip: Use a closure to return a function that you can call later.
+
+const memoizedClosureTimes10 = () => {
+  let cache = {};
+
+  return (n) => {
+    if (n in cache) {
+      console.log('Fetching from cache:', n); 
+      return cache[n];
+    } else {
+      console.log('Calculating result');
+      let result = n * 10;
+      cache[n] = result;
+      return result;
+    }
+  };
+
+
+};
+
+const memoClosureTimes10 = memoizedClosureTimes10();
+console.log('~~~~~~~~~~~~~~TASK 3~~~~~~~~~~~~~~');
+try {
+  console.log('Task 3 calculated value:', memoClosureTimes10(9));	// calculated
+  console.log('Task 3 cached value:', memoClosureTimes10(9));	// cached
+} catch(e) {
+  console.error('Task 3:', e);
+}
+
+```
+- In my version I was still referencing the external times10 function, instead of including that functionality directly.
+I do like Bianca's use of `n in cache` I think it's a bit more readable. I'm just not that familar with using the `in` keyword.
+- Benefit of using closures is to not use a global cache, must better to keep it contained in a function's scope/closure.
+- this requires us to return a function from our memoizedClosureTimes10 function.
+- Imporant to remember, that when we run memoClosureTimes10(9), we are calling, not the whole original closure, `memoziedClosureTimes10` but instead we are calling the function that that function returns.
+- How closures work, we have access to that persisted parent scope.
+
+- What is neat is that with each function call we are creating a new execution environment, and inside that execution environment, you have your local variables, and do what you want with it. This is the basis of the functional paradigm in JS.
+
+## Generic Memoize Function Exercise 
+```js
+const times10 = (n) => (n * 10);
+// Task 4: Make your memo function generic and accept the times10 function as a callback rather than defining the n * 10 logic inside the if/else or pulling it in from the global scope.
+
+// protip: Take advantage of the fact that parameters are saved in the closure as well, just like the cache from the previous example.
+const memoize = (cb) => {
+    const cache = {};
+
+    return (n) => {
+        if (n in cache) {
+            console.log("Fetching from cache ", n);
+            return cache[n];
+        } else {
+            cache[n] = cb(n);
+            console.log("Calculating and caching...");
+            return cache[n];
+        }
+    };
+
+};
+
+// returned function from memoizedAdd
+const memoizedTimes10 = memoize(times10);
+console.log('~~~~~~~~~~~~~~TASK 4~~~~~~~~~~~~~~');
+try {
+  console.log('Task 4 calculated value:', memoizedTimes10(9));	// calculated
+  console.log('Task 4 cached value:', memoizedTimes10(9));	// cached
+} catch(e) {
+  console.error('Task 4:', e)
+}
+```
+## Generic Memoize Function Solution
+
+- When we are rerunning the body of our function, all the variables in that scope are going to be reinitialized, but the variables in this scope, the outer closure scope are gonna stay the same.
+- That's very important when reasoning about a closure. 
+
+## Reviewing Optimization
+- In this section we talked about caching and a coupel of different techniques for caching.
+- a couple of things to keep in mind when using the technique of caching is...
+  - you aretrading time complexity for space complexity
+  - for each operation you are saving the value, creating a new DS and adding new values to that every time, minimizing time complexity by trading for space.
+  - really important to keep track of when your function calls or callbacks/operation is expensive, usually this tradeoff is fine.
+- ✨ often in interviews, people joke like there's this optimization question, how do we optimze?
+    - the thing that people always say is, you just use a hash table. 
+    - what we did in this section, was us using a hash table
+    - when they say use a hash table to optimize, this is really what they mean
+    - in JavaScript, an object is essentially a hash table (we will make our own in the upcoming course)
+    - use adding things to a cache, which is really just an object , and there are differnet ways to go about it buts its essentially just, how do we take an expensive operation and turn it into constant time or at least linear time, and that is by using a hash table.
+ 
+## Extra Practice
+This is just me revisiting some concepts...
+```js 
+function memoize() {
+  const cache = {};
+
+  return (n) => {
+    if (n in cache) {
+      console.log('fetching...', n);
+      return cache[n];
+    } else {
+      console.log('caching...', n);
+      cache[n] = n;
+      return cache[n];
+    }
+  };
+};
+
+const memoization = memoize();
+
+memoization(5); 
+```
+Yesterday when trying to recreate memoization, I was trying to have the enclosing function around the returned arrow function be the one to take the argument, and to handle the parameter lookup. 
+- Because of that, I was confusing myself thinking how you would appropriately access the same store without creating a bunch of separate stores for those specifically passed in values..
+- the better way is to just have the returned function take the value and use the main function to essentially be your cache or store instantiator... 
+- by saying ... `const memozization = memoize()`; 
+    - I can just reference the same store with the memoize function
+    - if I want a new cache I can just create a new binding , give it a name and assign it to a call to memoize.
+- I think this is helpful in better understanding how I might bridge memoization and recursion.
+- I think an opimization I would perhaps consider is pre-caching or initializing the cache with the enclosing function, like it takes ...args or an array of values to cache and then pre-caches them
+
+In the above if you said something like...
+`let memoization = memoize()(5);`
+- You would get `//-> caching...5`, but the variable memoization won't hold the function, it will hold the returned value `5`, because the `()()` simply immediately invokes the returned function. It makes sense...
+    - outer function returns inner function
+    - second parens invokes the returned inner function right there
+    - another example...
+    ```js
+    function fun(a) {
+        console.log(a);
+        return (b) => {
+            console.log(b);
+            return (c) => {
+                console.log(c);
+            };
+        };
+    };
+
+    fun()('b')()
+    // undefined
+    // b
+    // undefined 
+    ```
+```js
+// Take on a loop using recursion
+// I couldn't really figure out how to set the default arguments for functions so the code below is kind of broken
+// if you try passing your own function, this will break. 
+// so let's try implemented a more standard for loop without a custom modifier step option...
+// function recursiveLoop(start = 0, end = 0, modifier = (v) => v += 1) {
+
+//     if (start >= end) {
+//         return start;
+//     } else { 
+//         return recursiveLoop(modifier(start), end, modifier);
+//     }
+
+// };
+
+function recursiveLoop(start = 0, end = 0,) {
+
+    if (start >= end) {
+        return start;
+    } else { 
+        start += 1;
+        return recursiveLoop(start, end);
+    }
+
+};
+
+recursiveLoop(0, 6);
+// So the above may not be the most readable either, because we are modifiying start,
+// you have to be thinking about start as a changing value.
+// I think it makes more sense if youre thinking about it recurisvely because you 
+// are constantly changing the start point of the loop and moving towards your base case. 
+// It might be clearer if you use some kind of closure for a counter.
+
+// Or if you want, you could pass a third argument as the count...
+function recursiveLoopWithCount(start = 0, end = 0, count = 0) {
+
+    if (count >= end) {
+        return count;
+    } else { 
+        count += 1;
+        return recursiveLoopWithCount(start, end, count);
+    }
+
+}; 
+// This way, you don't have to create a separate closure to cache state
+// Let's walk through my thinking real quick, I thhink you would need
+// a closure is so you can have some state tracking  you couldn't just
+// redeclare a cache in the function you are recursively call because it
+// will be written every time in the call, and if youre using it as your
+// progressor towards your base case you will never hit it because it will
+// keep being reset with each subsequent recursive call. By using a parameter
+// to track state, we doing have to redeclare the binding to hold
+// and track that value, we can simply do work on it, and pass it down 
+// into the each subsequent recursive call as an argument.
+
+// Really unreadable way!
+// function recursiveLoop(start = 0, end = 0, modifier = const modifier = (n) => n += 1) {
+// console.log(modifier);
+// return (start >= end) ? start : recursiveLoop(modifier(start), end, modifier);
+// };
+``` 

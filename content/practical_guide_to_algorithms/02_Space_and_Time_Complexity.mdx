@@ -1,0 +1,211 @@
+---
+title: "Space & Time Complexity"
+---
+
+import Collapsible from 'react-collapsible';
+
+## Introducing Space & Time Complexity
+Time Complexity is how we reasonable about the speed of an algorithm.
+- faster algorithms mean we process things faster.
+- we can really only estimate how fast an algorithm is going to be
+
+What makes an agorithm fast?
+
+<Collapsible trigger="What makes an algorithm fast, perhaps, more importantly what makes it slow?" transitionTime="135">
+    It's space and time complexity. How much memory is used? How many primitive operations are there? 
+    How big is our dataset? Is it growing? How fast is it growing? What are the variables determining/effecting its growth? 
+</Collapsible>
+
+**Space Complexity** How much memory is used?
+**Time Complexity** How many primitive operations are executed?
+We want to be thinking about this with respect to input size
+... and assuming worst case scenarios
+
+- Wed expect that the more data we have, the longer it will take to figure out the min and max required for the range.
+- Thinking about things in proportions
+- However, as our dataset grows, the cost can grow fast or slow!
+
+### Problem: To find min max on hotel prices
+
+### Approach 1: compare all numbers to one another
+For this approach we would need some sort of table 
+```js
+var hotels = [
+    {price: 200, brand: 'Estin'},
+    {price: 50, brand: 'Best Eastern'},
+    ...
+    ...
+    {price: 175, brand: 'Radishin'}    
+]
+```
+Approach one is a nested loop where every item gets compared to every other item.
+So we would keep track comparing each number one against the other right, if we have 3 hotels, we are making 9 comparisons, because we are comparing everything to everything. 
+- As our data grows, how much does our work increase?  
+- each time we do an operation (in this case greater than or less than) we are making a comparison, so 5 hotels would be 25 copmares, 10 would be 100, 100 would be 1,000.
+- We call n^2, (or **quadratic time**), where n is the number of hotels. As n grows, the amount of work increases at that rate. 
+
+>✨ This is a how you should be thinking about time complexity as our input grows, how much more work do we need to do?
+
+### Approach #2: Track min & Max
+Using two loops (not nested), we are doing opeartions on each item one at a time, but separtely.
+We consider this 2n b/c as the data grows, the amount of work increases by 2
+- this is shorter than the first as less comparisons are being made 
+
+### Approach #3: Sorted List
+If it was already sorted we'd only need to look at the start and the end.
+
+| # of operations | Algorithm |
+|------------------|---------  |
+| n^2  | compare all numbers    |
+| 2n   | Find min and max numbers |
+| 2    | Sorted list, find first and last |
+
+#### Review: 
+- If we compare all the numbers to one another in that nested loop situation that's going to be n^2, n squared, because as our n increases, each loop is also giong to increase, so we need to multiply it by itself.
+- Any time you have one loop and it's looping from the beginning to the end of n, that's gonna be just n, right. If it's 10, you loop 10 times.
+- In the second example we have 2 loops that aren't inside of each other, so 2 just wait 2n times for two loops.
+- 2 just go to the beginning or the end which is just nice.
+
+## Big O Notation
+![](https://user-images.githubusercontent.com/5563119/69473006-28c44c80-0d66-11ea-96d4-e1d76e916057.png)
+- We talk about time complexity using something called big O notation.
+
+<Collapsible trigger="How do we talk about time complexity?" transitionTime="135">
+    We do so with big O notation.
+</Collapsible>
+
+- We would say, this is O of n to the 2, or O of n squared or quadratic time, that's how we talk about it.
+- The next logical question, might be, what's with these 2s? This one just says 1, that one just says n, then we have 2nd, then we have 2.
+    - ✨ When we are thinking about time complexity we don't think about every small detail, we want to have the big picture estimation so we drop what we call non-significant numbers.
+- Fastest are constant time. Slowest are exponential. 
+
+![](https://user-images.githubusercontent.com/5563119/69473077-0848c200-0d67-11ea-98db-6503d16fa83d.png)
+- Algorithmic correctness is the idea that it's better to have some solution that's good enough versus no solution at all.
+- Also good to know, that on our logarithmic solution, as the input grows it tapers off, the delta or the increase lessens.
+- If your data set is small focus on readability rather than performance, don't want to pre-maturely optimize. 
+
+### Native Methods & JavaScript 
+Let's talk about some simple native JS methods, Methods/expressions/operations?
+- for loops are linear time, whatever the ending case, usually i < n, whatever n is is going to be our time.
+- `pop`, `const arr = [1,2,3]; arr.pop() // => [1,2]`
+- `pop` is a constant time operation because you are always taking off the last one. 
+- forEach and map are complicated because they are technically just loops under the hood, and they have the callbacks so depending on what is in those callbacksd can effect it's operation time. 
+- arr[1] is a constant time operation, because we know where to look with the index. we dont have to go through a whole array or anything.
+- similarly like a property lookup on an object, if we know the property we can just point to that location in memory.
+-  `1 + n` is always going to be one operation, just n plus one. 
+- So, math is constant, our lookups are constant. 
+- comparison operations are constant time operation. 
+- So when you are looking through your algorithms, you can kind of spot these things and think about, okay, as my input grows, and you also need to pay attention to what is your input (like you could have a lis, and you can have a number ), but as your input grows how is it going to change?
+- So, unlike `pop` , `shift`/`unshift` would not be constant, they would be linear, because for every change in the array, the have to `shift`/`unshift` the rest of the array by the operation of n(number or length of overall array)
+
+### Big O Notation continued
+
+### Calculating Time
+What do we do if we have multiple expressions/loops/etc?
+Like how do we deal with a function where in the function body there are multiple function expressions?
+
+So the way Bianca likes to think of it is, if we have multiple expressions that are not inside of a loop and we are just adding them together, for instance something like 1 + 1 + 1, constant time operations, would be like 3, but if we put these things in a loop than we have to multiple it. if 
+- so if you have a loop, it's n, which is linear
+- if you have a loop inside of a loop it's n times n or (n^2) which is then quadratic. 
+- if we have three loops, we have n * n * n. 
+    - but we then have to think about what is then going on inside of  those loops. 
+    - like if we were doing recursion inside of a loop
+    - Rule of thumb: just add things essentially until you start nesting loops or loop like operations.
+
+### What about O(logn)?
+So logarithmic time recap, they can have different bases, base 10 or base 2 and you can think about, as your input increases, the work, or the number of operations that need to be done, decreases by a fraction.
+- so commonly, if you are looping through an array, and every time you loop, you cut your problem in half, that is going to be logarithmic time. 
+    - so every time you loop you only have to do work on half of your dataset, or a third or a fraction.
+- so as it increases, the time complexity increases at a fraction, so it grows really, really slow, which is good, which is why it's pretty close here to constant time, and it's often better than linear time when we have a large enough dataset.
+- bases are determined by what you are dividing it by, if you are dividing it by 2 it's base2 if by 10 then base10. Typically you are going to see it divided by 2, like binary search.
+
+### Complexity of Common Operatons
+![](https://user-images.githubusercontent.com/5563119/69473816-af305c80-0d6d-11ea-9472-f6092f2c350f.png)
+
+A caveat: we are only glossing over the rules of thumb. The real calculations on this are deeply mathematical, and really out of the scope of this workshop. The thing to be mindful of is, what is n, b/c you are going to have a lot of different data points in your algorithms.
+- You want to make sure you're identifying what is the dataset that is growing, and if you have more than one dataset that has a variable length, youre going to have to take that into consideration
+    - ✨ newbies tend to assume n is always going to be the length of the array or n is always going to be a specific input, you need to really think about how your code is executing and what is changing as your input changes.
+
+### Space Complexity
+Given what we have discovered about time complexity, can you guess how we can calculate space complexity?
+- Likely in the same way, just as we need to track the number of operations we need to make considerations about how much memory is required for those operations.
+- It's all about the space that it take up in memory,
+    - if you are algorithm is copying your array a bunch of times , and youre making a new array, then in memory you're having five arrays and that's a certain amount of space complexity
+    - **and it works in the same scale of constant, linear, etc. as time complexity, except that instead of the number of operations that are being executed, we're thinking about how much space are we taking up**
+    - so are we for every loop creating a new array, so that's like n times the length of the array of space every time. 
+    - or if we're what we call sorting in place, where we don't make a new array , and then our space complexity is constant even though our algorithm's time complexity can be be something different. 
+   
+✨ Things to think about when you're thinking about space complexity is:
+    - are you making a new data structure?
+    - how often are you doing it in comparison to your input 
+    - and also with your callstack, if you're recursion, that's another thing to consider is that stack is also taking place in memory 
+        - just something to be aware of when you're talking about space complexity with recursion. 
+
+Recap:
+**Time complexity** of an algorithm signifies the total time requried by the program to run to completion. The time complexity of algorithms is most commonly expressed using the **big O notation**.
+
+Big O notation gives us an industry-standard language to discuss the performance of algorithms. Not knowing how to speak this language can make you stand out as an inexperienced programmer.
+
+There are other notations that are typically used in academic settings. We use Big O because it describes the worst case scenario. 
+
+## Big O: Loop
+- Big O Cheat sheet also has a different visualization that more closely groups constant time and logarithmic time:
+- https://www.bigocheatsheet.com/ (also a good resource in general)
+
+### What is the TC? (loop example)
+```js
+var countChars = function(str) {
+    var count = 0;
+
+    for (var i = 0; i < str.length; i++) {
+        count++;
+    }
+    
+    return count;
+};
+
+countChars("dance");
+
+countChars("walkreallyfast");
+
+```
+`var count = 0` is done once and is constant. `count++` is constant time operation and is done as many times as length. 
+But the loop is the important part, it's the thing that matters b/c its the slowest thing. So this would be linear O(n) in terms of time complexity.
+- We drop the constants because we're looking for the slowest part essentially, so we don't really think about the constant time operations.
+- Essentialy we are looking for the worst case or the slowest performing operation and go from there
+    - You will eventually learn to disregard certain things, like initializing values, and returning values, you learn that those usually don't matter.
+
+## Big O: Property Lookup
+
+### What is the TC? (length example)
+```js
+var countChars = function(str) {
+
+    return str.length;
+
+};
+countChars("dance");
+
+countChars("walkreallyfast");
+
+```
+- How much work does this expression have to do? Well, it's important to ask, well how does it get the length? Right. If it involves looking at each item in the array that would be linear, **but it's this approach to thinking, about asking how something is working, we need to be asking questions like, how does the length property compute its value**?
+- ✨To understand TC of an operation you need to ask yourself how it operates under the hood.
+- Well likely, JS is smarter than needing to loop through the whole array when we request `length`, and JS actually just keeps track of the length as we add/remove items from our array. Thankfully, length is just a property lookup, so this would be a constant time operation.
+
+## Big O: Push, Shift, & Unshift
+
+### What is the TC? 
+```js 
+var myList = ["hello", "hola"];
+// Constant time (n)
+
+myList.push("bonjour");
+// Constant (n)
+
+myList.unshift();
+// Linear O(n), because we will displace all items in the array, same with .shift()
+
+```
+- In other langs, push might not be constant b/c of things dealing with memory management but in JS it is. 
+
