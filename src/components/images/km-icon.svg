@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="313px" height="354px" viewBox="0 0 313 354" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>km-icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#525BCC" offset="0%"></stop>
+            <stop stop-color="#FFA7A7" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-Copy-5" transform="translate(-215.000000, -71.000000)">
+            <g id="km-icon" transform="translate(198.000000, 77.000000)">
+                <polygon id="Polygon" stroke="url(#linearGradient-1)" stroke-width="12" fill="#000000" stroke-linejoin="round" points="173.5 0 323.755408 85.5 323.755408 256.5 173.5 342 23.2445924 256.5 23.2445924 85.5"></polygon>
+                <line x1="59.5" y1="134.5" x2="59.5" y2="212.5" id="Line" stroke="#FFFFFF" stroke-width="7"></line>
+                <line x1="290.5" y1="132.5" x2="290.5" y2="210.5" id="Line-Copy-2" stroke="#FFFFFF" stroke-width="7"></line>
+                <polyline id="Line-2" stroke="#FFFFFF" stroke-width="7" points="133 142 91 177 133 206.877718"></polyline>
+                <polyline id="Line-3" stroke="#FFFFFF" stroke-width="7" points="199 157 234 199 263.877718 157"></polyline>
+                <line x1="171" y1="135" x2="171" y2="213" id="Line-Copy" stroke="#FFFFFF" stroke-width="7"></line>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+/* @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'); */
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap');
 
 * {
   margin: 0;
@@ -44,7 +45,7 @@ a {
 
 
 body {
-  font-family: 'Roboto';
+  font-family: 'Poppins';
 }
 .visibleMobile {
   display: none;
@@ -253,7 +254,7 @@ a:hover {
 
 /* Header section starts here */
 .navBarDefault {
-  background-color: #372476;
+  background-color: #7ac5d8;
   border-radius: 0;
   border-top: 0;
   margin-bottom: 0;
@@ -959,4 +960,72 @@ img {
   .searchWrapper {
     padding-left: 0px;
   }
+}
+
+/******************** React Collapsible Component Styling **********************************/
+.Collapsible {
+  background-color: white;
+  padding-bottom: 6px;
+}
+
+.Collapsible__contentInner {
+  padding: 10px;
+  border: 1px solid #ebebeb;
+  border-top: 0; 
+  border-radius: 0px 0px 15px 15px;
+}
+.Collapsible__contentInner p {
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 20px; 
+}
+.Collapsible__contentInner p:last-child {
+  margin-bottom: 0;
+}
+.Collapsible__trigger {
+  font-size: 1.1em;
+  display: block;
+  font-weight: 400;
+  text-decoration: none;
+  color: #333333;
+  position: relative;
+  border: 1px solid grey;
+  padding: 10px;
+  padding-right: 15px;
+  background: #9fa3dd;
+  border-radius: 15px 15px 0px 0px;
+  color: white;
+}
+.Collapsible__trigger:after {
+  font-size: 12px;
+  content: '❮';
+  position: absolute; 
+  transform: rotateZ(-90deg);
+  right: 12px;
+  top: 14px;
+  display: block;
+  transition: transform 300ms; 
+}
+.Collapsible__trigger.is-open:after {
+  transform: rotateZ(90deg);
+}
+.Collapsible__trigger.is-disabled {
+  opacity: 0.5;
+  background-color: grey;
+}
+
+.CustomTriggerCSS {
+  background-color: lightcoral;
+  transition: background-color 200ms ease;
+}
+
+.CustomTriggerCSS--open {
+  background-color: darkslateblue; 
+}
+
+.Collapsible__custom-sibling {
+  padding: 5px;
+  font-size: 12px;
+  background-color: #CBB700;
+  color: black;
 }

@@ -61,16 +61,16 @@ const Sidebar = styled('aside')`
   padding-right: 0;
   background-color: #372476;
   /* Safari 4-5, Chrome 1-9 */
-  background: linear-gradient(#372476, #3b173b);
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#372476), to(#3b173b));
+  background: linear-gradient(to top, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
+  background: -webkit-gradient(to top, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
   /* Safari 5.1, Chrome 10+ */
-  background: -webkit-linear-gradient(top, #372476, #3b173b);
+  background: -webkit-linear-gradient(to top, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
   /* Firefox 3.6+ */
-  background: -moz-linear-gradient(top, #372476, #3b173b);
+  background: -moz-linear-gradient(to top, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
   /* IE 10 */
-  background: -ms-linear-gradient(top, #372476, #3b173b);
+  background: -ms-linear-gradient(to top, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
   /* Opera 11.10+ */
-  background: -o-linear-gradient(top, #372476, #3b173b);
+  background: -o-linear-gradient(to top, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
 
   @media only screen and (max-width: 1023px) {
     width: 100%;
