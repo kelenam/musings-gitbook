@@ -1,3 +1,16 @@
+
+# Welcome
+
+This gitbook was created using Hasura's gitbook Gatsby starter. The setup and installation for this theme is included as the original README in the section below "Todo". 
+
+## Todo
+- [x] Loose color config and settings
+- [x] Include React collapsible lib for review questions
+- [ ] Populate with older notes/entries
+- [ ] Maybe setup docker env 
+- [ ] Signup for Angolia and add creds to docker env
+- [ ] Fix logos/favicons; proper setting of themes
+
 # gatsby-gitbook-starter
 
 Kick off your project with this starter to create a powerful/flexible docs/tutorial web apps.
