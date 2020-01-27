@@ -71,7 +71,7 @@ const config = {
 		"gaTrackingId": null
 	},
 	"header": {
-		"logo": "https://user-images.githubusercontent.com/32684636/73146085-9b52f080-4065-11ea-800f-f1a9b087e74a.png",
+		"logo": "https://user-images.githubusercontent.com/32684636/73151243-28567380-407f-11ea-8a3d-66b027f87436.png",
 		"logoLink": "http://www.kelenamori.com",
 		"title": "Code Musings",
 		"githubUrl": "https://github.com/kelenam/musings-gitbook/tree/master/content/",
@@ -108,7 +108,7 @@ const config = {
 		"description": "Code musings and programming related thoughts ",
 		"ogImage": null,
 		"docsLocation": "https://github.com/kelenam/musings-gitbook/tree/master/content",
-		"favicon": `https://user-images.githubusercontent.com/32684636/73146085-9b52f080-4065-11ea-800f-f1a9b087e74a.png`
+		"favicon": `https://user-images.githubusercontent.com/32684636/73151243-28567380-407f-11ea-8a3d-66b027f87436.png`
 	},
 	"pwa": {
 		"enabled": false, // disabling this will also remove the existing service worker.
