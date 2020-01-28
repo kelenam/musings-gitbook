@@ -1,0 +1,461 @@
+---
+title: "Linked List Data Structures"
+---
+import Collapsible from 'react-collapsible';
+
+## Linked List Exercise
+
+While we don't use linked lists day to data, interviewers like to mix it up with them.
+Some things to think about, insertion needs to be constant time
+- removal can be constant time if you have a reference to the node or if you first need to search it, thats going to be linear 
+
+```js
+/** Class representing a Linked List */
+
+class LinkedList {
+
+    constructor() {
+        this.storage = {};
+        this.head = { value, next: null};
+        this.tail = this.head;
+    }
+    /*
+    * Inserts a new value to the end of the linked list
+    * @param {*} value - the value to insert
+    */
+    insert(value) {
+    
+    }
+    /*
+    * Deletes a node
+    * @param {*} node - the node to remove
+    * @return {*} value - the deleted node's value
+    */
+    remove() {
+
+    }
+    /*
+    * Removes the value at the end of the linked list
+    * @return {*} - the removed value
+    */
+    removeTail() {
+
+    }
+    /*
+    * Searches the linked list and returns true if it contains the value passed
+    * @param {*} value - the value to search for
+    * @return {boolean} - true if value is found, otherwise false
+    */
+    contains() {
+
+    }  
+    /*
+    * Checks if a node is the head of the linked list 
+    * @param {{prev:Object|null, next:Object|null}} node - the node to check
+    * @return {boolean} - true if node is the head, otherwise false
+    */
+    isHead() {
+
+    }
+    /*
+    * Checks if a node is the tail of the linked list 
+    * @param {{prev:Object|null, next:Object|null}} node - the node to check
+    * @return {boolean} - true if node is the tail, otherwise false
+    */
+    isTail() {
+
+    }
+}
+```
+Walking through this...how Bianca would do approach this in an interview...
+1) just initiate a new linked list...
+`const myListe - new LinkedList(1)`
+    - interesting, its not taking a value, should we? should we initiatite it empty? 
+    - maybe ask your interviewer? with a value without?
+```
+{
+    _storage: {{}},
+    _head:
+}
+```
+we would definitely need the _head of our linked list. 
+- if we do initiate it with 1 then I need to makre sure I have a node in here
+- huh, well maybe we don't even need a node in the storage, maybe we just need the head, b/c we don't have a contiguous block of memory, we just have pointers to each one, so maybe our storage can really be our head.
+- let's play with that idea, what would that mean for our data structure?
+    - so if we initiate with a value, our head would just point to a node that has a value 1... a next property we would set to null because we don't have a next value yet.
+```js
+const myList - new LinkedList(1);
+
+{
+    _storage: {},
+    _head: {value: 1, next: null}
+}
+```
+Okay , that seems reasonable
+- so maybe we dont want our head to be secret/private. maybe we want it public, so that if we want to insert a node like
+myList.insert(NODE), maybe like `myList(myList.head, 2)`
+- well lets go up and read the JSDoc oh `insert`...
+```js
+  /*
+  * Inserts a new value to the end of the linked list
+  * @param {*} value - the value to insert
+  */
+```
+...just adds a new value to the end, maybwe we don't even need myList.head, yet, we just need the end.
+    - *That maakes me think... so I need to keep track of the tail*
+```js
+const myList - new LinkedList(1);
+
+{
+    _storage: {},
+    head: {value: 1, next: null},
+    tail: {value: 1, next: null}
+}
+```
+- And so in the beginning, the head would also be the tail, so we would initiailze the tail to be the head value.
+- because of that, now I'm thinking we dont really need storage, it seems like maybe we don't need it.
+So if we did something like ... `myList.insert(2);`... we'd want it to look like...
+```js
+myList.insert(2);
+{
+    _storage: {},
+    head: {value: 1, next: {value: 2, next: null} /*note this is just represting a pointer to the next objext, it isn't a new one, we can't really visualize a pointer here, so this is just pseudo-representation of a pointer*/},
+    tail: {value: 2, next: null}
+}
+```
+- So value of the tail would then be 2
+- we'd also want to make sure that the null of next on the head, becomes a pointer to the next object 
+    - So, the head's next value is a pointer to the next object, in this case the tail
+
+So if we did something like ... `myList.insert(3);`... we'd want it to look like...
+```js
+myList.insert(3);
+{
+    _storage: {},
+    head: {value: 1, next: {value: 2, next: tail: {value: 3, next: null}},
+    tail: {value: 3, next: null}
+}
+```
+- Okay, feeling pretty good about how I'm going about this
+- At this point, you can ask your interviewer, is this kind of what you had in mind?
+    - are there any edge cases you want me to consider?
+    - i started off and assumed this was a singly linked list, 
+        - the reason is the problem we were being asked to solve didn't seem to require one
+        - doubly linked lists take up more memory (for each new pointer) (linear space complexity, grows by n)
+
+### Let's Start Coding our Linked List...
+```js
+/** Class representing a Linked List */
+
+class LinkedList {
+
+  constructor(value) {
+      this.head = {value, next: null},
+      this.tail = this._head;
+      // tail points to the same object in memory as head
+      // if we did it like this...
+      // this._head = {value, next: null},
+      // this._tail = {value, next: null},
+      // this would be two separate objects
+  }
+  /*
+  * Inserts a new value to the end of the linked list
+  * @param {*} value - the value to insert
+  */
+  insert(value) {
+
+  }
+  /*
+  * Deletes a node
+  * @param {*} node - the node to remove
+  * @return {*} value - the deleted node's value
+  */
+  remove() {
+
+  }
+  /*
+  * Removes the value at the end of the linked list
+  * @return {*} - the removed value
+  */
+  removeTail() {
+
+  }
+  /*
+  * Searches the linked list and returns true if it contains the value passed
+  * @param {*} value - the value to search for
+  * @return {boolean} - true if value is found, otherwise false
+  */
+  contains() {
+
+  }  
+  /*
+  * Checks if a node is the head of the linked list 
+  * @param {{prev:Object|null, next:Object|null}} node - the node to check
+  * @return {boolean} - true if node is the head, otherwise false
+  */
+  isHead() {
+
+  }
+  /*
+  * Checks if a node is the tail of the linked list 
+  * @param {{prev:Object|null, next:Object|null}} node - the node to check
+  * @return {boolean} - true if node is the tail, otherwise false
+  */
+  isTail() {
+
+  }
+}
+```
+- As you write out your components, good idea to check to se the functionality you just wrote works as expected.
+
+✨ "The core of my debugging strategy is just ahead of time... 
+1) Figuring out what I'm going to expect...
+2) Write my code out to meet that expectation...
+3) Test it, if for whatever reason it's not meeting the expectation... then...
+4) Go backwards to try to figure out where I could have gone wrong otherwise keep coding..
+
+
+## Linked List: Insert Method
+
+```js
+/** Class representing a Linked List */
+
+class LinkedList {
+
+  constructor(value) {
+      this.head = {value, next: null},
+      thist.tail = this._head;
+  }
+  /*
+  * Inserts a new value to the end of the linked list
+  * @param {*} value - the value to insert
+  */
+  insert(value) {
+      // update tail
+      const node = { value, next: null }; 
+      this.tail.next = node;
+  }
+  /*
+  * Deletes a node
+  * @param {*} node - the node to remove
+  * @return {*} value - the deleted node's value
+  */
+  remove() {
+
+  }
+  /*
+  * Removes the value at the end of the linked list
+  * @return {*} - the removed value
+  */
+  removeTail() {
+
+  }
+  /*
+  * Searches the linked list and returns true if it contains the value passed
+  * @param {*} value - the value to search for
+  * @return {boolean} - true if value is found, otherwise false
+  */
+  contains() {
+
+  }  
+  /*
+  * Checks if a node is the head of the linked list 
+  * @param {{prev:Object|null, next:Object|null}} node - the node to check
+  * @return {boolean} - true if node is the head, otherwise false
+  */
+  isHead() {
+
+  }
+  /*
+  * Checks if a node is the tail of the linked list 
+  * @param {{prev:Object|null, next:Object|null}} node - the node to check
+  * @return {boolean} - true if node is the tail, otherwise false
+  */
+  isTail() {
+
+  }
+}
+```
+So, something to keep in mind (that we can write in as comments) is that we need to update head and tail as needed.
+- It doesn't seem like we need to update head when we insert because, we already initialized the first one...
+    - and it seems like I would only need to update the head on the insert of the head is null
+    - so maybe just need to worry about updating that tail reference.
+
+Next we can initialize our node...
+`const node = {}`
+    - we could also do something like make a node constructor in our constructor, but doing them in the insert should be okay for now
+    - the reason that might be nice for example, is like what if you want to make this a doubly linked list, if our node constructor is just in one place, we just need to change one constructor.
+    - just something to consider as you're making your decisions, the pros and cons.
+```js
+  insert(value) {
+      // update tail
+      const node = { value, next: null }; 
+      this.tail.next = node;
+  }
+```
+So so far we have this... and if we walk through our expectations...
+```js
+{
+    head: {value: 1, next: null},
+    tail: {value: 1, next: null},
+}
+```
+- we start off with the head adn the tail, the reason I'm doing it on the tail, is because the head and the tail aren't always going to be the same. 
+- So when we update our tails value to the next one, by setting it to node..
+```js
+// {
+//     head: {value: 1, next: {3},
+//     tail: {value: 1, next: {3},
+// }
+```
+- Which is really going to update both, because our by-reference. Because obbject's properties, remember, are held by reference
+    - it's going to update both b/c its the same object we are mutating.
+    - however, now our tail is pointing to the wrong thing and we need to update it...
+
+### Updating the tail
+
+```js
+  insert(value) {
+      // update tail
+      const node = { value, next: null }; 
+      this.tail.next = node;
+      this.tail = node;
+  }
+```
+So what was did was...
+```js
+// {
+//     head: {value: 1, next: {3},
+//     tail: {value: 1, next: {3},
+// }
+```
+- We updated what was the tail (which happned to also be the hea, so updated both because of "by-reference")
+- Then we updated the tail to this, so now the new tail is the new value, but our head stays the same
+
+- A good thing to ask your interviewer, is how you want it inserted if not specified, right? because you can insert before the head at the end, you can pass a node and insert it after, better to clarify what they expect.
+- the tail will always point to null
+
+### Linked List: Insert Q & A
+Q: Line 16, were saying that this.tail.next = node, but if we're looking at the node the pointer is null,
+A: So... this node is a separate object that is just meant for the tail right, because that next will always be null.
+When we set the current tails `this.tail.next` to that node, so we do that, but then we have is our current tail is no longer our current tail, so we need to make it the correct tail and we do that by adding it hewre with `this.tail = node`
+
+If we skip this line... `this.tail.next` what would happen?
+I guess that, this.head wouldn't have a reference to the next object. Because when we are setting it with this.tail.next we are also setting the next property for the current, and the tail.
+- every time we insert the tail will be updated, and we won't have the next set to the next value.
+
+A: it looks repetitive, `this.tail.next = node` and `this.tail = node`) but they are both doing very important things...
+1) So the first thing `this.tail.next = node` is setting the next vlaue of the CURRENT tail to our new node and the other...
+2) Is (`this.tail = node`) updating our tail to be the real tail, which is our new
+
+If we said something like `this.head.next` instead of tail, we would miss our middle values, because the head is always put into the first place, if we set this.head.next it would be "to the right" of head right, but really we would want head.next.next, because we want to add it in the appropriately chained sequence. 
+- If we had 2 links in a chain, inserting this.head.next would be trying to wedge a link between the existing chains, and not to the end. 
+- it would be like dropping all the links in the middle and bridging the heads value to the new link.
+    ```
+    LinkedList {
+        head: { value: 1, next: null },
+        tail: { value: 1, next: null } }
+    LinkedList {
+        head: { value: 1, next: { value: 2, next: null } },
+        tail: { value: 2, next: null } }
+    LinkedList {
+        head: { value: 1, next: { value: 3, next: null } },
+        tail: { value: 3, next: null } }
+    LinkedList {
+        head: { value: 1, next: { value: 4, next: null } },
+        tail: { value: 4, next: null }
+    }
+    ```
+
+The nice think about Linked Lists is that you can do constant time adds/insertions/anywhere in the list. But appending to the tail is pretty standard.
+
+## Linked List: Remove Tails
+
+Let's reason about how we might go abotu deleting a node.
+- A few things to think about, are we deleting the head, is this the tail? Are we deleting a specific node? A value? Do we need to search? Are you giving me a reference to a node? Let's read the JSDOC...
+
+```js
+/** Class representing a Linked List */
+
+class LinkedList {
+
+  constructor(value) {
+      this.head = {value, next: null},
+      thist.tail = this._head;
+  }
+  /*
+  * Inserts a new value to the end of the linked list
+  * @param {*} value - the value to insert
+  */
+  insert(value) {
+      // update tail
+      const node = { value, next: null }; 
+      this.tail.next = node;
+      this.tail = node;
+  }
+  /*
+  * Deletes a node
+  * @param {*} node - the node to remove
+  * @return {*} value - the deleted node's value
+  */
+  remove() {
+
+  }
+  /*
+  * Removes the value at the end of the linked list
+  * @return {*} - the removed value
+  */
+  removeTail() {
+      this.tail
+  }
+  // ... 
+}
+myList.removeTail();
+
+```
+So we are expecting to reassign the tail, and then give that tail's next value that of null.
+Protip: All the things being said, announcing your thought process, writing the comments, expected outputs, and pseudocoding is what you should be doing in the interview, explaining how we are reasoning about things.
+ 
+Let's do removeTail first...
+- resassign the tail adn then that tails next value to null
+- expect last reference to tail to point to null not the tail
+
+We likley need to loop through it because we need the node right before the tail
+We will know its the node before the tail before we can look forward by two chains .next.next to see if the value is `null` or 
+`node.next === this.tail`.
+
+- ✨Traversing a linked list is something you should pay attention to. Traversing a linked list is a question you will encounter frequently in interviews, which is traverse them forward, traverse them backwards, travsere them with two pointers, with one pointer, so all of these traversing things
+    - you can't just for loop through a link list
+
+```js
+let currentNode = this.head;
+while (currentNode.next !== this.tail) {
+    currentNode = currentNode.next;
+}
+currentNode.next = null;
+this.tail = currentNode; 
+```
+- This could be done recursively but youre adding space complexity.
+- Why Bianca leans towards an iteratively solution, b/c Recursion could be trickier to reason about.
+- If you can do it in an iteratively try that, but in an interview solution you could always just ask.
+ 
+Bianca talks about a `removeNext()` function that is written outside of the class, the reason it is outside of the class is..
+- anything that isn't necesasry totally tied to our class, and might have functionality else where you can just write outside of your class, and eventually into its own file if need be.
+
+```js
+contains(value) {
+    let currentNode = this.head;
+    while (currentNode.value !== value) {
+        currentNode = currentNode.next;
+    }
+    return currentNode.value === value;
+}
+```
+
+## Linked List Commentary
+Some key advice to keep in mind when implementing your own linked list...
+- Being able to reference your head and your tail. Holding those references and knowing why they are important.
+- Singly linked vs Double linked list, important to clarify.
+- Linked lists are fast for operating on the ends of the data structure, it's not going to be the answer for everything
+    - As you can see, if we're trying to remove a node with a reference to the previous node, we have to loop through it
+    - however if you ahve the reference to the previous node, you can delete the next node in constant time.

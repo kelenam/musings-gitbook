@@ -1,0 +1,497 @@
+---
+title: "Hash Table Data Structures"
+---
+import Collapsible from 'react-collapsible';
+
+## Hash Table Exercise
+```js
+/** Class representing a Hash Table */
+
+class HashTable {
+
+  constructor() {
+    this.storage = [];
+  }
+  /*
+  * Inserts a new key-value pair
+  * @param {string} key - the key associated 
+  * with the value
+  * @param {*} value - the value to insert
+  */
+  insert() {
+
+  }
+  /*
+  * Deletes a key-value pair
+  * @param {string} key - the key associated with the value
+  * @return {*} value - the deleted value
+  */
+  remove() {
+
+  }
+  /*
+  * Returns the value associated with a key
+  * @param {string} key - the key to search for
+  * @return {*} - the value associated with the key
+  */
+  retrieve() {
+
+  }  
+  /*
+  * Hashes string value into an integer that can be mapped to an array index
+  * @param {string} str - the string to be hashed
+  * @param {number} n - the size of the storage array
+  * @return {number} - an integer between 0 and n
+  */
+  _hash(str, n) {
+    let sum = 0;
+    for (let i = 0; i < str.length; i++)
+        sum += str.charCodeAt(i) * 3
+
+    return sum % n;
+  }
+}
+```
+So the difference here is our storage is an array, youre going to be able to insert, a key and value, all operations need to be on average, constant time.
+- Other problems you should be thinking about that aren't on here are...
+1) The problem of resizing  
+2) The problem of collisions (you can use an array, might be too complicated to use a linked list)
+- When you have a collision with an array or when you have a collision you just put a *tuple*, an array with two values with a key the value in the index of that hash...
+    - So when you have...
+    ```js
+    [, , , , ,]
+
+    one -> 1 -hash-> 0
+    two -> 2 -hash-> 0
+    ```
+    You have a key one and value of 1 and key two of val 2, but they both hash to 0.
+    - We are going to have to put both of these in the zeroth position? So how do we do that?
+        - Very easily we could just simply, put an array in the first slot... 
+    ```js
+    [ [['one', 1], ['two', 2]], , , , ,]
+
+    one -> 1 -hash-> 0
+    two -> 2 -hash-> 0
+    ```
+    The other thing is instead of using an array for collisions, it could also be a linked list, 
+
+Then for retieval, if you're going to handle collisions, which needs to handle retrieving from something that is nested.
+- Be mindful, that sometimes in the JSDoc, bianca isn't specifying a parameter in the comments, e.g. retrieval should take one
+
+
+
+```js
+/** Class representing a Hash Table */
+
+class HashTable {
+  constructor(size = 10) {
+    this._storage = [];
+    this._tableSize = size;
+    // well maybe we want to initialize our hash table with a size value,
+    // maybe if no size is provided, we can set an initial value to 10.
+    // TODO: Get a better understanding on expected dataset/size.
+    // Caveat: JS has dynamic arrays, so we could technically just set our this._length
+    // property to storage.length.
+    // but maybe a consideration with this is checking how our hash function might
+    // handle the size parameter it takese as n.
+    // n is the modulator value, so good thing we checked, numnber % 0 is going to be NaN
+    // this._storage.lenth will probably be helpful to know when we are approaching fullness
+    // in order to resize our this._length property.
+    // like this seems like a tradeoff, setting the default to 10
+    // like we need out hash to return the same result each time for the same string.
+    // lets say our the hash produces a string of value 100, and our size, is 10
+    // what happens when our size hits 40? and we get 100%40, the has will split out 20 for index, that 
+    // previously was an index of 0 for the same string, is that a problem?
+    // so maybe really clarify this size thing. 
+    // will we need to write a function that handles recasting every indexed cluster to a new hash?
+    // will we need to do this very every stored key-value pair?
+    // Maybe TODO: is wrap our this._tableSize in a callback, so that we can figure out our tablesize thing.
+  }
+  /*
+  * Inserts a new key-value pair
+  * @param {string} key - the key associated with the value
+  * @param {*} value - the value to insert
+  */
+  insert(key, value) {
+    // still need to handle collisions!
+    // this will overwrite newly added hashes
+    this._storage[this._hash(key, this._tableSize )] = [key, value];
+  }
+  // const myHt = new HashTable(); 
+  // myHt.insert('one', 1);
+  // .. { this._storage = [ ['one', 1], [], []  ] }
+
+
+  /*
+  * Deletes a key-value pair
+  * @param {string} key - the key associated with the value
+  * @return {*} value - the deleted value
+  */
+  remove() {
+
+  }
+  /*
+  * Returns the value associated with a key
+  * @param {string} key - the key to search for
+  * @return {*} - the value associated with the key
+  */
+  retrieve(key) {
+  // RETRIEVAL: if we are storing  key-value pairs as arrays, we know that the 0 index is always going to be the key.
+  // do we have to persist the size at the time of hash somehow?
+  // so if we don't have to worry about resizing for now. we would take the 
+  // return the value associated with that key, which we know is the [1] of that subarray.
+    return this._storage[this._hash(key, this._tableSize)][1];  
+  }  
+  // 
+
+  /*
+  * Hashes string value into an integer that can be mapped to an array index
+  * @param {string} str - the string to be hashed
+  * @param {number} n - the size of the storage array
+  * @return {number} - an integer between 0 and n
+  */
+  _hash(str, n) {
+    let sum = 0;
+    for (let i = 0; i < str.length; i++)
+        sum += str.charCodeAt(i) * 3
+
+    return sum % n;
+  }
+}
+
+const myHashTable = new HashTable();
+myHashTable.insert('one', 1);
+console.log(myHashTable);
+myHashTable.retrieve('one');
+// -> 1
+``` 
+> Let's try taking what we have and implementing instead of arrays, Implemeting Linked Lists...(revisit this)
+```js
+// So first we would need to make our Linked List Class
+class LinkedList() {
+    constructor() {
+        this._storage = {};
+        this.head = { value, next: null };
+        this.tail = this.head;
+    }
+
+    insert() {
+        // this value is going to be appended to the tail right, wrapped with our encapsulated data structure? 
+        const node = { value, next: null};
+        // we need to update our current tail with the next object which we just set above as node...
+        this.tail.next = node;
+        // now we need to set the newest node as the tail, because the current tail is no loner going to be be the tail...
+        this.tail = node;
+    }
+
+    remove(node) {
+        // we need to check is head/ tail 
+        // how about it just breaks the chain whereever
+        return // removed value
+    }
+    /*
+    * Removes the value at the end of the linked list
+    * @return {*} - the removed value
+    */
+    removeTail() {
+
+    }
+    /*
+    * Searches the linked list and returns true if it contains the value passed
+    * @param {*} value - the value to search for
+    * @return {boolean} - true if value is found, otherwise false
+    */
+    contains(value) {
+
+        if (isTail)
+    }  
+    /*
+    * Checks if a node is the head of the linked list 
+    * @param {{prev:Object|null, next:Object|null}} node - the node to check
+    * @return {boolean} - true if node is the head, otherwise false
+    */
+    isHead(value) {
+        // TODO: Handle undefined , Default values??
+        return this.head.value === value ? true : false;
+    }
+    /*
+    * Checks if a node is the tail of the linked list 
+    * @param {{prev:Object|null, next:Object|null}} node - the node to check
+    * @return {boolean} - true if node is the tail, otherwise false
+    */
+    isTail(node) {
+        // if its the head is it also the tail?
+        // what do we do with linked lists of 1 node?
+        // I'm inclined
+        return node.next === null ? true : false;
+        
+        // return boolean if a node is the tail.
+        // do we need 
+    }
+
+}
+
+/** Class representing a Hash Table */
+
+class HashTable {
+  constructor(size = 10) {
+    this._storage = [];
+    this._tableSize = size;
+  }
+  /*
+  * Inserts a new key-value pair
+  * @param {string} key - the key associated with the value
+  * @param {*} value - the value to insert
+  */
+  insert(key, value) {
+    // this doesn't handle collisions, but 
+    // i was thinking we would have to implement something like our own .push()
+    // function workaround for some reasons.
+    this._storage[this._hash(key, this._tableSize )] = [key, value];
+  }
+
+
+  /*
+  * Deletes a key-value pair
+  * @param {string} key - the key associated with the value
+  * @return {*} value - the deleted value
+  */
+  remove(key) {
+      const removedValue = this._storage[this._hash(key, this._tableSize)][1];
+      this._storage[this._hash(key, this._tableSize)] = undefined;
+      return removedValue;
+  }
+  /*
+  * Returns the value associated with a key
+  * @param {string} key - the key to search for
+  * @return {*} - the value associated with the key
+  */
+  retrieve(key) {
+    return this._storage[this._hash(key, this._tableSize)][1];
+  }  
+  // 
+
+  /*
+  * Hashes string value into an integer that can be mapped to an array index
+  * @param {string} str - the string to be hashed
+  * @param {number} n - the size of the storage array
+  * @return {number} - an integer between 0 and n
+  */
+  _hash(str, n) {
+    let sum = 0;
+    for (let i = 0; i < str.length; i++)
+        sum += str.charCodeAt(i) * 3
+
+    return sum % n;
+  }
+}
+
+const myHashTable = new HashTable();
+myHashTable.insert('one', 1);
+console.log(myHashTable);
+myHashTable.retrieve('one');
+// -> 1
+``` 
+
+## Hash Table: Usage, Constructor & Insert
+
+Just a reminder, the interface of a hash table, we are inserting and removing in constant time, the way the magic that makes this constant is going to be our hashing function.
+
+✨ The reason we are using an array for storage is because we can't implement an object with an object, otherwise that would be cheating. Remember, Hash Tables are just objects. 
+
+```js
+/** Class representing a Hash Table */
+
+class HashTable {
+
+  constructor(val = 25) {
+    this.storage = [];
+    this._tableSize = val; 
+  }
+  /*
+  * Inserts a new key-value pair
+  * @param {string} key - the key associated 
+  * with the value
+  * @param {*} value - the value to insert
+  */
+  insert(key, value) {
+      const index = this._hash(key, this._tableSize);
+        // what about collisions? well let's initalize an empty array if one isn't detected
+        if (!this._storage[index]) this._storage[index] = [];
+        // [0,0,0,[]]
+        this._storage[index].push([key, value]);
+        // now this pushes the subarray.
+        // [0,0,0,[['a',1],['b',2]]]
+  }
+  /*
+  * Deletes a key-value pair
+  * @param {string} key - the key associated with the value
+  * @return {*} value - the deleted value
+  */
+  remove() {
+
+  }
+  /*
+  * Returns the value associated with a key
+  * @param {string} key - the key to search for
+  * @return {*} - the value associated with the key
+  */
+  retrieve() {
+
+  }  
+  /*
+  * Hashes string value into an integer that can be mapped to an array index
+  * @param {string} str - the string to be hashed
+  * @param {number} n - the size of the storage array
+  * @return {number} - an integer between 0 and n
+  */
+  _hash(str, n) {
+    let sum = 0;
+    for (let i = 0; i < str.length; i++)
+        sum += str.charCodeAt(i) * 3
+
+    return sum % n;
+  }
+}
+
+const myHT = new HashTable(25);
+console.log(myHT);
+myHT.insert('a', 1);
+myHT.insert('b', 2);
+
+// HashTable { _storeage: [0,0,0,[['a',1], ['b',2]], 0,0,0] }
+```
+- Our only option for constant time is that we need a numerical index for our array, otherwise, ev ery other thing that you're thinking of would require looping through and finding the value, we can't do that because a hash table is constant time. 
+
+So this is how we are going to want to handle the collisions, we just add a subarray 
+`// HashTable { _storeage: [0,0,0,[['a',1], ['b',2]], 0,0,0] }`
+
+- Again, a core property of a hashing function is for whatever (string) input, it's always going to give you the same output, and in this case the output is going to be between a range, and that range is what we want the size of our hash table to initially be. Bianca likes to start with 25.
+
+This is the code we use to handle our collisions:
+```js
+ insert(key, value) {
+      const index = this._hash(key, this._tableSize);
+        this.storage[index] = value;
+        // what about collisions? well let's initalize an empty array if one isn't detected
+        if (!this._storage[index]) this._storage[index] = [];
+        this._storage[index].push([key, value]);
+        // now this pushes the subarray.
+  }
+```
+Again, a **collision** is when you hash function returns the same index for a different key. If you didn't handle a collisoin
+
+> I think the big AHA! Moment for me right now, is listening to Bianca talk about the reason we are using an array is because if we were using an object would be cheating, this bit from above...
+> ✨ The reason we are using an array for storage is because we can't implement an object with an object, otherwise that would be cheating. Remember, Hash Tables are just objects. 
+> Also that Hash Table time complexity is amortized time and depends on a solid hashing algorithm to average out the linear operations we might have to be doing on collisions.
+
+- Remember we are also storing the key because we want to remember which one is associated with which. 
+- Some improvements in Bianca's version...
+    - being explicit about holding the index in a constant in the insert function
+    - defaulting to 25 values
+    - using  `if (!this._storage[index])` as a check to see if an array exists instead of dealing with typeof/stuff.
+
+## Hash Table: Retrieve
+
+### Amortized Time Complexity
+- So we want to get the index from the key, then we want to delete it.
+- Here is where we start to question... if we have these collisions and we're adding all of these items into the same index and then if we need to find sometheg, we just loop through that index, right? The array of arrays, we just loop until we find it...
+well doesn't that make this linear time? Why would I say hash tables are always constant?
+- ✨ Well, we think of hash tables as constant because on average, with things like resizing and really good hashing algorithms, it's pretty much like a moot point. Like it's so rare that you would have everything hashed to the same index...
+    - our example hash function is terrible, but real hash functions are really complex and efficient.
+- ✨ So this is called **amortized time complexity** so we kind of like spread it out and think of it in terms of average case when the worst case is so unlikely that it's not useful to think about.
+
+So we are banking on the efficiency of the hashing algorithm to not produce collisions that we would have to loop through, otherwise we will be looping which is a linear O(n) operation.
+
+```js
+/** Class representing a Hash Table */
+
+class HashTable {
+
+  constructor(val = 25) {
+    this.storage = [];
+    this._tableSize = val; 
+  }
+  /*
+  * Inserts a new key-value pair
+  * @param {string} key - the key associated 
+  * with the value
+  * @param {*} value - the value to insert
+  */
+  insert(key, value) {
+      const index = this._hash(key, this._tableSize);
+        // what about collisions? well let's initalize an empty array if one isn't detected
+        if (!this._storage[index]) this._storage[index] = [];
+        // [0,0,0,[]]
+        // TODO: loop through array and find it key was already inserted
+        this._storage[index].push([key, value]);
+        // now this pushes the subarray.
+        // [0,0,0,[['a',1],['b',2]]]
+  }
+  /*
+  * Deletes a key-value pair
+  * @param {string} key - the key associated with the value
+  * @return {*} value - the deleted value
+  */
+  remove() {
+
+  }
+  /*
+  * Returns the value associated with a key
+  * @param {string} key - the key to search for
+  * @return {*} - the value associated with the key
+  */
+  retrieve() {
+      const index = this._hash(key, this._tableSize);
+      const arrayAtIndex = this._storage[index];
+
+      if (arrayAtIndex) {
+          // we could do forEach, but isn't great for returning things
+          // dont really want to use map for a new array
+          // reduce seems like overly complicated for what we are trying to do here, so lets
+          // just go old school with a for loop.
+          for(let i = 0; i < arrayAtIndex.length; i++) {
+              const keyValueArray = arrayAtIndex[i];
+              if (keyValueArray[0] === key) {
+                  return keyValueArray[1];
+              }
+          }
+      }
+  }  
+  /*
+  * Hashes string value into an integer that can be mapped to an array index
+  * @param {string} str - the string to be hashed
+  * @param {number} n - the size of the storage array
+  * @return {number} - an integer between 0 and n
+  */
+  _hash(str, n) {
+    let sum = 0;
+    for (let i = 0; i < str.length; i++)
+        sum += str.charCodeAt(i) * 3
+
+    return sum % n;
+  }
+}
+
+const myHT = new HashTable(25);
+console.log(myHT);
+myHT.insert('a', 1);
+myHT.insert('b', 2);
+
+// HashTable { _storeage: [0,0,0,[['a',1], ['b',2]], 0,0,0] }
+```
+- Write, we are retrieving by key, we can only look up an object for the particular key, can't look up an object by value.
+In any case, we only know the key  
+- hopefully you only have to loop through this once and you don't have deep collisions that go on forever.
+- Bug, we can't have duplicate keys. Right, when we are pushing , we want to make sure we don't have another value there.
+- We can maybe just add this to our TODO 
+
+## Hash Table: Remove
+
+So while this hash table looks really linear, if you have a hashing function that is not Bianca's hashing function you shouldn't run into these collisions...
+- Also another thing to think about is if you are implemented a hash table you want to double its size, and it will stop collisions from being really dense. 
+ - so first you'd need to double its size
+ - then run your has function with the new tbale size on every input
+    - and this is called **resizing** and it's another thing that you can do with a hash table, and it's part of of the implementation.
+    - this is another thing that sounds really expensive, but it's something that averages out in the grand scheme of things, we don't really worry about it. Especially if youre accurately assuming the size of your dataset.
+

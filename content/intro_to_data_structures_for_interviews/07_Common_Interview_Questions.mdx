@@ -1,0 +1,168 @@
+---
+title: "Common Interview Questions"
+---
+import Collapsible from 'react-collapsible';
+
+## Overview
+
+How Bianca sourced approaches and themes to talk about here...
+- Moocs & online classes and books
+- Cracking the Coding Interview
+- Websites like Leetcode, geeks for geeks, interviewbit
+
+## Stack & Queue
+So say we have this prompt which is random like using one array and implementing three stacks or two stacks or n stacks or mini stacks, but only using one array as your core data structure.
+
+So you already implemented a stack. We would adapt that class, but instead of only representing one stack, you would represent multiple.
+
+## Some Stack / Queue Quetions
+- Use an array to implement 3 stacks...
+- Sort a stack with the min values in order, on top. You can use another stack as a buffer...
+- Implement a getMin() or getMax() method on your stack...
+- Create a queue using 2 stacks...
+- Write a function that returns true if a string of brackets is valid/balanced...
+
+### 3 Stacks in an Array
+https://repl.it/@bgando/k-stacks-one-array-prompt  
+https://repl.it/@bgando/k-stacks-one-array-solution  
+
+A better solution to the 'use an array to implement 3 stacks' problem is instead of allocating given space to each stack on oen array is to instead hold pointers to the, the first three indicies in the array, would be node like stack one's first element, and then the second would be stack's two's first element, then stack three's first element, and then the 4th would be the second one for stack one, and so you would do this interleaving approach.
+
+**Interleaving** is a theme for ordered data structures that you will see often. **Interleaving** just means that you are taking maybe two different lists and putting them one by one, there is also **merging**, you can merge a list which usually you're comparing things, like you have lists of integers and youre merging in order.
+- interleaving doesn't really matter that it's in sorted-order, just that it's in the original order between the interleaved collections
+
+### getMin() or getMax()
+https://repl.it/@bgando/min-stack-prompt  
+https://repl.it/@bgando/min-stack-solution  
+- it requires that you, if you want want to do it in constant time that you have an **auxiliary data structure** like a stack,
+or you can just simply keep track of it(the min or max) inside of the node, but basically, every time you push a value into your stack, you want to push a value into your min stack that will always be the minimum, so you might have multiple minimums in that min stack so its not space efficient, but it will return the min.
+- every time you pop off or peek the min stack its always going to be a constant time solution 
+
+### Queue Using 2 Stacks
+https://repl.it/@bgando/queue-two-stacks-prompt  
+https://repl.it/@bgando/queue-two-stacks-solution  
+- is similar where you need to  enqueue, enqueue, enqueue, and have 3 items in your queue. When you need to dequeue, you need to take the thing off the bottom and it gets stuck, so what you do is, pop it, then push it to the other stack 
+- then you popu it and you pop it, once you want to dequeue you need to pop pop pop all the things in your stack then it flips it upside down into your other stack, and then you can pop it off in the right order.
+
+### 2 Stacks prompt
+https://repl.it/@bgando/queue-two-stacks-prompt  
+https://repl.it/@bgando/queue-two-stacks-solution  
+
+Simplification of the Tower of Hanoi problem, which is like that kids game where you have disks they're fat and then get skinnier, theyre mixed up and you want to get it to a pyramid shape. Only use a stack, can't use a queue, more of a brainteaser. really a logic question that a useful programming one.
+- You would create a queue structure, but enqueu / deuque would be like push/pop but insteead of storage youd have like stack one, stack two.
+
+### Matching Brackets
+https://repl.it/@bgando/bracket-validator-prompt  
+- push all opening brackets, once you find a closing bracket you want to make sure it matches a closing.
+- opens you push, closings if it matches you pop.
+- if it doesn't match, its not valid
+
+
+## Linked List
+
+### Sample Prompts
+- Delete the following
+1) a node in the middle of the linked list
+2) a node with only a variable pointing at that node
+3) a duplicate
+- Partition a linked list around a value
+- Write a function for reversing a linked list. Can you do it in-place?
+- Check if a linked list contains a cyle
+- Find the kth to the last node.
+
+...
+to delete a duplicate you need to track duplicates
+
+### Variable Node
+https://repl.it/@bgando/ll-delete-node-no-pointers-prompt  
+
+So we talked about deleting a bit earlier, so the questions here is, how do you find the middle of a linked list?
+How you do this is basicalyl you need to get th length of the linked list, you can keep track of this
+- two ways to approach getting length : ahead of time, or doing when you need it 
+- to get the length of a linked list youll have to look through it...
+    - ✨ that while loop we used in our link list is the typical way to loop through linked lists.
+    - you would then find the length and divide by two, and loop again to get to the middle.
+3) if you need to delete duplicates you need to track dups, if you use an auxiliary data structure like a hash table that would be pretty easy. https://repl.it/@bgando/ll-delete-dupe-node-prompt
+- Deleting a duplicate would be easy using a hash table would be easy becuase you just loop through and you save everything through the hash table, and if it's already saved in the hash table, then you know you've aleady seen it.
+- the other thing you can do is sort the data structure with a link list its kind of a hard DS to sort, it is possible.
+    - if its sorted thats great, its just linear, and you just see if any same values next to each other.
+
+- ✨ **If you ever have to sort: automatically think O(nlogn)** becuse sorting on average is gonna be nlogn, with like the JS .sort() method, you can assume that would be the time complexity of that algorithm.
+
+- strings ,arrays, and linked lists, deleting duplicates are usually related to these data structures.
+- Hash tables you won't ever have a duplicate. 
+
+- You don't do a lot of searching and traversing inside of a stack / queue, you can but even the main reason you would use that data structure so you would see that more with an array question.
+
+### Partition prompt
+https://repl.it/@bgando/ll-partition-prompt  
+
+### Reversing a linked list
+https://repl.it/@bgando/ll-reverse-prompt  
+Basicalyl you need to remember how we deleted the second to last node?, that technique is similar to reversing a linked list is you need to get the one before each one.
+- or you can have two poitner and then you can swap.
+
+### Cycle / kth
+https://repl.it/@bgando/ll-cycle-detect-prompt  
+https://repl.it/@bgando/ll-kth-to-last-node-prompt  
+- ✨ A lot of these linked list questions, assume you have two pointers one being a slow pointer and one being a fast pointer.
+    - the fast pointer goes twice as fast than the slow pointer, typically
+- are like the classic problems for a two pointer linked list.
+- so if you want to see if a linked list contains a cycle...
+    - your slow pointer would just move one, and your fast pointer would move two
+    - so essentially, if the fast pointer and the slow poitner ever are in the same node, that means you have a **cyle**.
+
+- Kth to the last node, assuming you don't already know the length whta you can do is, have your first pointer be at the head, the second pointer be at head+k, and then loop both of them at the same pace. If your second pointer gets to the last one, your first pointer is at the kth to the last one.
+
+
+## Hash Table, Array & String
+
+### Hash Table Problems
+https://repl.it/@bgando/ht-unique-string-prompt  
+https://repl.it/@bgando/ht-remove-dups-prompt  
+https://repl.it/@bgando/ht-find-unique-list-prompt  
+https://repl.it/@bgando/ht-two-items-sum  
+- count the number of occurences of all characters or worsd in a body of text or string.
+- delete duplicates in a list
+- find a unqiue value in a list
+- find if two integers in a list add up to k
+
+✨I always think of a hash table as an optimization step. So when I'm pretty much done with a solution, Or when I'm thinking about the time complexity of a solution, does it seem reasonable? Can I make it faster?
+- The first I think of is, how can I use a hash table, because that could really increase the speed of my algorithm
+- also think about maps and sets and when you would and wouldn't use those 
+
+
+### Array / String Problems
+https://repl.it/@bgando/rotate-array-prompt  
+https://repl.it/@bgando/boolean-matrix-prompt   
+- rotate a matrix, string, or an array
+- given an m x n boolean matrix, if an element is 0, set its entire row and column to 0
+- search for a value
+- write a function that encodes a string by turning all spaces into '%20'.
+- Merge two sorted lists into one list.
+
+ Matricies are really common, an array of arrays. can you rotate it?
+ - if you rotate it you just move all the values by some degree/number
+ - you can also rotate a string.
+    - abcd --> babc (rotating by one, )
+✨ Remember strings are immutable, so you would have to split it into an array.
+
+A lot of these based on game boards, checkers and chess, tic tac toe...  
+✨ If you hear anything about a chess board or any board game, start thinking about 2D matricies.  
+✨ Also when youre thinking about 2D Matricies and it's binary, you could also possibly distill down even more simply.  
+
+### Searching for a value...
+https://repl.it/@bgando/search-for-value-prompt
+- Can loop through linearly, we do a lot of linear search when we are working with linked list 
+- Otherwise you probably want to sort your input or have it pre-sorted would be nice and then you could do binary search to logn, if it's presorted. Once you're sorting you have to count the sorting.
+
+### Encoding Strings
+https://www.geeksforgeeks.org/urlify-given-string-replace-spaces/
+- This is another thing where you're going to need to split an array
+- edgecases: punctuation, what if characters in other langs, etc.
+
+### Merge Sorted lists
+https://repl.it/@bgando/merge-sorted-arrays-prompt
+- many variations on this
+- its actually a subroutine of merge sort, so youll learn this and then youll learn merge sort, youll notice this is the same.
+- but there is a way to use two pointer in linear time to merge two sorted lists, so you just go through, if this is less than that, and kind of keep moving them as they sort.

@@ -1,0 +1,74 @@
+---
+title: "Course Review"
+---
+import Collapsible from 'react-collapsible';
+
+## Common Operations
+
+### Recap
+Talked about Time Complexity for our operations.
+![](https://user-images.githubusercontent.com/5563119/69575908-1160ab80-0f80-11ea-8d25-931947277a35.png)
+- ✨ If you notice, we have constant time for a lot of operations for or Hash Table, which means that we're going to use that a lot for optimizations. If you think of optimization think of hash table to do it.
+- a lot of our insertions/deletions are ordered, but theyre not necessarily in a contiguous block of memory, so when we insert and delete we don't have to worry about shifting things over.   
+- *For an arrays*: And in most JavaScript arrays, in most browser environments, are basically the same as this linear time (but probably not true depending on where your javaScript is running.) 
+
+
+### Sorting
+✨ You should definitely check out sorting, a lot of the DS problemns can be improved significicantly if you just sort the input.
+So definitely clarify if the data is already sorted.
+- ✨ Bianca would just use the jS .sort() method, be careful, because you need to learn how to use that callback function where you have to a - b, where one is ascending and one is descending.
+- And under the hood its either merge sort of quicksort and so you can expect O(nlogn) for these types of sorts.
+
+### Doing things in place
+- ✨ Another thing to think about is doing things in place vs a new collection. This is so that you don't consume extra memory.
+- A lot of questions will usually start off with this naive solution where you'll use a hash table to make something really fast, but then your interviewer might be like, well but can you do it in place?
+    - then you'll have to figure out a creative way to not use a hash table...
+    - ✨ Some ways you could do that are like using pointers with linked lists. 
+    - Swapping, instead of creativing new ones, but you can only swap in DS that have an order 
+    - there are some other ways as well.
+
+### Searching
+- Pretty much best you can do is O(n) because you have to look at everything, unless it's ordered, unless it's sorted.
+- if it is then you could just use binary search and that can just speed things up significantly.
+
+### Time Complexity Operations
+Should definitely be familiar with how long operations take, don't have to memory the table, but you should have an understanding of most of the things.
+Protip: think about what the time complexity might be on things you encounter everyday, like a forEach for example, just think about how something might be working under the hood and what that time complexity might be
+
+## Data Structures Overview
+![]()
+
+#### For a Stack and Queue: 
+Again stacks and queues aren't typically sorted, so these sort of sorting based operations aren't common, but you can do like the Tower of Hanoi or like sort a stack with an aux stack are questions you could imagine, but youre not really going to sort in place. 
+
+### General Advice
+- But definitely, know your reversing, know how to reverse a stack, linked list and your array/string.
+- Know how to merge, quik sort for your arrays 
+- you could sort a linked list but it's not very common
+- ✨The typical problem for merging a range of values is this job scheduling or meeting sheduling problem, you usually want to sort by the **earliest end time**.
+- Shuffling is really hard, randomization questions are somewhat difficult, don't need to solve it perfectly, but if you do get this question you should be able to  talk about the challenges of true randomimzation and things like that
+- Edit distance is like, if you have this list one two three and you have this list its two two three, how many changes do you need to make to get these to be the same, this is a popular one.
+    - usually in an interview question its like , its only one step, its not usually recursive, but the true edut distance problem is what you use for diffing the dom, or like going through large texts, spell-checking, etc.
+
+
+![](https://user-images.githubusercontent.com/5563119/69732918-594b1400-10e1-11ea-8134-208b38dc1a46.png)
+- Permutations is a fun one, B recommends you do permutation, anagram, substring problems, very common for strings and also dynamic programming type problems.
+
+## Other Considerations
+
+### More Things to Consider
+- in-place / side-effects
+- preservign original order
+- Set vs Map vs Object
+- lengths of 0 and 1
+- off-by-ones
+- optimization vs readability
+- what other information could your interviewer?
+
+Whenver you are doing something in place you are creating side effect so discuss with interviewer
+- The reason that side-effects are bad is that if you are mutating your data structure, we're been talking a lot about having things by reference, so if you change your data structure it can have unintended consequences in other places in your code that rely on that data structure, so whenver you do an in-place algorithm, you're essentially doing side-effects. 
+    - You're saving space but there is a tradeoff
+
+- Actively communicating with your interviewer, they won't give you the answer, but they will give you the constraints, and based on those constraints, like space/time complexity constraints and you know your Data Structures, you can kind of whittle down what kind of problem it is.
+
+Intersting interview prep resource: https://interviewing.io/

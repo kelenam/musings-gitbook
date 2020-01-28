@@ -1,0 +1,124 @@
+---
+title: "Queue Data Structures"
+---
+import Collapsible from 'react-collapsible';
+
+## Queue: Method Usage
+```js 
+/** Class representing a Queue. 
+ * @constructor
+*/
+
+class Queue {
+
+    constructor() {
+        this._storage = [];
+    }
+    /*
+    * Enqueues a new value at the end of the queue
+    * @param {*} value the value to enqueue
+    */
+    enqueue(value) {
+
+    }
+
+    /*
+    * Dequeues the value from the beginning of the queue and returns it
+    * @return {*} the first and oldest value in the queue
+    */
+    dequeue() {
+
+    }
+    /*
+    * Returns the value at the beginning of the queue without removing it from the queue
+    * @return {*} the first and oldest value in the queue
+    */
+    peek() {
+
+    }
+}
+```
+
+Returning to the lecture for now, want to wrap this up today....
+```
+var myQ = new Queue();
+myQ.enqueue();
+// { _storage: {0: 'zero', 1: 'one'}
+    //length: 2
+// }
+```
+So when we enqueue something we want to push it to the back the end of the queue
+then when we dequeue we want it to look something like tihs..
+```
+var myQ = new Queue();
+myQ.enqueue();
+// { _storage: {1: 'one'}
+    //length: 1
+// }
+```
+So the reason we dont want to update the `1` property or any of the proeprties is that would make this a linear operation.
+
+> So I was on the right track with an earlier attempted solution of tracking the head value with a length - 1 type of solution. I definitely went down a bit of a different rabbit hole. 
+
+## Queue: Enqueue & Dequeue
+```js 
+/** Class representing a Queue. 
+ * @constructor
+*/
+
+class Queue {
+
+    constructor() {
+        this._storage = {};
+        this._length = 0;
+        this._headIndex = 0;
+    }
+    /*
+    * Enqueues a new value at the end of the queue
+    * @param {*} value the value to enqueue
+    */
+    enqueue(value) {
+        // TODO: argument validation
+        // if you want to be really clear you can say something like ...
+        // const lastIndex = [this._length + this._headIndex]
+        // this._storage[lastIndex] = value;
+        this._storage[this._length + this._headIndex] = value;
+        this._length++;
+    }
+
+    /*
+    * Dequeues the value from the beginning of the queue and returns it
+    * @return {*} the first and oldest value in the queue
+    */
+    dequeue() {
+        const firstVal = this._storage[this._headIndex];
+        delete this._storage[this._headIndex];
+        this._length--;
+        this._headIndex++;
+    }
+    /*
+    * Returns the value at the beginning of the queue without removing it from the queue
+    * @return {*} the first and oldest value in the queue
+    */
+    peek() {
+
+    }
+}
+```
+- Notice that we call this `headIndex` right, thats pretty clear that this isn't a pointer to the head 
+So in a linked list you can say like headNode so that you know that its either a node or an index. 
+
+- you can clarify with the interviewer with what they expect returned if anthing, don't assume, just ask. Typically for enqueues you don't, but good to clarify
+
+> Interesting... when I went to continue with the video the approach that I bailed out on was the approach Bianca first used but we had the same bug, we didn't set account for moving up the headIndex on our storage: `this._storage[this._length + this._headIndex] = value;`
+- Although my brain is reaching capacity right about now. 
+
+- Our bug was... when we `myQ.enqueue('two');` our length is 1 before. We need to addhese together because the length is 2, but the head start at 1. We can't just look up storage at the `length` because while the length could be 1, it should be starting on the 14th index if we've dequeued 13/14 times already. 
+- so in our storage we can't just use ._length, we need to find what the last index is and that kind of sub-array we are creating. 
+    - so the `headIndex` is the first on the list, and then the length is how mayn more after you need to put something 
+
+## Queue: Q&A
+
+- Trees and graphs are recursive by nature.
+- whenever you use recursion you're actually using a stack b/c of how your code is being executed, if you're thinking abotu space complexity when you have a recursive algorithm you need to think about the space complexity tradeoff right, because youre making a stack and saving values for each call.
+- 
