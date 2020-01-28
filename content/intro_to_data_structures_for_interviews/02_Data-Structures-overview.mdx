@@ -1,0 +1,312 @@
+---
+title: "Data Structures Overview"
+---
+import Collapsible from 'react-collapsible';
+
+## Types of Data Structures
+### Intro to our Data Structures
+Going to be talking about 
+1) background on each ds, where it might be found
+2) Implementation, where it might be used
+3) Analysis and time complexity
+4) Gain experience and intuition
+
+Step One we'll talk about...
+- going to talk about theoretical
+- what it looks like
+- operation to expect on it
+- time complexity and analytsis of operations
+This all is step 1. 
+
+✨  **On data structures, understand there are two parts to them. How they/you make decisions about storage of that data, (e.g. using a constructor to store a cached value, a head, tail, etc.) and the corresponding operations/methods for interacting with that data store/structure.** 
+
+Step Two is diving into implementation details. Talking about the methods/operations on those data structure sand writing it such that it meets the spec, that it solves the problem within the given time complexity which means that it relies on something on a particular data structure for storage.  
+
+✨ In JS we don't have a lot of data structures that come out of the box especially pre-ES6. preES6 we really only had an array or an object as a data structure. You can also store things in variables, you have primitive data types and things like that, but if you want to store collections ...
+-  It's typically when you are thinking about storage, you're really thinking about an array or an object under the hood.
+**So you have the core storage of that data structure and then you have those core operations that you perform on that underlying data structure**.
+<br/>
+<Collapsible trigger="When we are thinking about what data structures to use in JS, what are going to be thinking of typically that is working under the hood?" transitionTime="135">
+    Arrays and Objects. ES6 Introduced Maps/Sets and the like, but typically most structures are going to be either arrays or objects under the hood.
+</Collapsible>
+
+
+Step 3 is solving problems with it, actually implementing it.
+
+![](https://user-images.githubusercontent.com/5563119/69513590-25af9480-0efd-11ea-92a3-886dc6054096.png)
+
+- Top right is classic image of JS runtime
+- Linked lists, the bottom left image, not contiguous, any of these nodes can be anywhere in memory and we just have pointers.
+- linked lists are important to understand how pointers even work, thats why a lot of interview questions focus on them, because they show that you understand how references to data work versus having a data by value.
+- hash tables top left, we have a hashing function which takes some stringified keys and returns some key between a range. 
+    - hash tables are used under the hood anytime you are caching something in memory, 
+    - any time you use an object, that's going to be hash table under the hood
+
+
+<Collapsible trigger="Could you draw out, on paper or in your mind, what each of the following (Stackes, Queues, Linked Lists, Hash Tables, Arrays, Strings) might look like visually?" transitionTime="135">
+    https://user-images.githubusercontent.com/5563119/69513590-25af9480-0efd-11ea-92a3-886dc6054096.png
+</Collapsible>
+
+You can deal with arrays and strings pretty much interchangeably when youre thinking about interview questions. When youre asked as string question you can think about arrays, the KEY difference however, is that strings are immutable, you cannot swap characters in a string or anything like that, with arrays you could, with strings you have to make a new string.
+- ✨ Often, if presented with strings, just automatically assume that I'm going to make a string into an array by splitting it.
+
+<Collapsible trigger="When presented with a problem dealing with strings, what should you be thinking of?" transitionTime="135">
+    Think about turning that strings into array with .split(), and keeping in mind that strings are immutable. Doing work on a string would replicate string and have a memory cost associated with each string modification. You could do an inplace modification on an array, you can't for a string.
+</Collapsible>
+
+
+## Stacks and Queues
+
+![](https://user-images.githubusercontent.com/5563119/69514154-3234ec80-0eff-11ea-8ea3-f3f7847a74c1.png)
+
+So the properties of a stack and queue are pretty similar.
+- ✨**They are an ordered data structure that have opinions about the order in which things can be inserted and things can be removed.**
+- **Stack**: stores items in a last-in, first-out (**LIFO** order). Everyone uses is a stack of plates, you stack them on top, you take them from the top, the most recently added item is the most recently exited item. 
+- **Queue**: stores items in a first-in, first-out (**FIFO** order) is the opposite, think about waiting in line for something. Put it at the back of the line and then you're taking from the front. Always takes the oldest item of the queue. 
+
+These are fundamental data structures that underlie: parsing strings, your linter, the call stack, the message queue, in js runtime. 
+
+
+<Collapsible trigger="What the differences between Stacks and Queues?" transitionTime="135">
+</Collapsible>
+
+### Interactive Visualization
+https://www.cs.usfca.edu/~galles/visualization/QueueArray.html  
+
+You might notice, this diagram looks like an array.  
+We can implement a stack using an array. And probably you've been using stacks but you didn't know, like if youve used an array where you are only pushing and popping , then youre using a stack.  
+- In an interview, you could say, oh, I could use a stack for this, but really you're just going to use an array.
+
+These visualizations show this array as this sort of contiguous block of memory, we have data next to each other, in some languages you have to preallocate memory. In JS we have **dyamic arrays** so we don't need to think about how long our array is going to be before we make it.
+
+<Collapsible trigger="What are dynamic arrays. What problem do they solve? If you didn't have dynamic arrays, how would you implement them?" transitionTime="135">
+    If your language of choice didn't have dynamic arrays, it's possible to implement them via linked lists.
+</Collapsible>
+
+One thing that could happen when you are using an array as the underlying your DS, if youre pushing and unshifting, if you want your array indicies to be correct you have to shift down the values. When using arrays, they are not optimized for unshifting, modern browsers these days are probably okay. If asked about time compelxity of this operation in an interview, you can say like typically, it's a linear operation, O(n). It grows in a linear fashion.
+- However, that's not always the case, depending on the implementation, and in the interative viz, they keep track of a head and a tail, so when you dequeue everything, you empty it and you enqueue it again, its using math to figure out where to put the values as opposed to specifically mapping to an index.
+
+### Why do we use them?
+✨ They are super fast at what they do. It's supposed to be constant time for all of those operations. Oh, well what about that unshift thing (linear opeartion) well, its  often optimized in modern browsers.
+- otherwise you can implement it with a linked list. 
+
+<Collapsible trigger="Why use stacks/queues?" transitionTime="135">
+    They have very fast operations. They should operate be all constant time operations. The caveat being with queues and unshifting(and if it is/isn't optimized)
+</Collapsible>
+
+![](https://user-images.githubusercontent.com/5563119/69514852-90fb6580-0f01-11ea-94e6-5102cf3ec6c6.png)
+Kind of just pseudocode but an example of what it might interface like.
+- another example of a stack is like a back button or an undo button, thats going to pop off the most recent changes.
+- ✨ and that is a common inteview question, implement a back button or an undo button. 
+
+## Linked List Introduction
+![](https://user-images.githubusercontent.com/5563119/69514941-d9b31e80-0f01-11ea-8824-5c4cd07f65d5.png)
+**Linked List** organizes items sequentially, with each item storing a pointer to the next.
+
+So this is an interesting one, it's a little bit different than our contiguous block data structures.
+- ✨ It doesn't really have a one-to-one mental model from this data structure to what we actually think abotu while we're coding in JavaScript
+- ✨But it is important, because it's an example of how pointers can be used creatively and this is very important in languages that don't have dynamic arrays. 
+- Linked list is pretty much how you implement a dynamic array. 
+
+If our DS was a continguous block of memory we could just increment through the indicies/numbers, but for a link list, the way we would loop is we would say the next one, the next one.
+- We would use a property called `next` that points to another object (think iterators)
+- this is important because when we think about assigning values to an object, we are really just pointing to an object
+    - that object is not actually living in memory inside that variable 
+    - that variable has a pointer to that object 
+    - if you assign another variable to that object, that pointer is not pointing to that same object, but there is only one object. 
+    - this is what we mean "by reference" 
+        - this isn't true for primitive values which are stored "by value"
+    - important to remember, because if you are chaning your data, changing your object its going to be change everywhere.
+
+> Last night I was just randomly thinking, and I early in this lecture, Bianca said there is no one to one mental model for this, but I was wondering, is prototypal inheritance a type of linked list? Right, because the progression or lookup via the p chain for props feels very link listy to me conceptually. 
+> I then googled it this morning and found this article, which I have yet to read: https://aryailia.blogspot.com/2017/04/javascript-inheritance-part-4-putting.html 
+
+Student question: Shallow and deep copies?
+A: No. Shallow and deep is about nested data structures, shallow is just coping the top level and nothing nested or deep. Deep would loop into all of the children recursively.
+    - e.g. using the -r flag in terminal
+
+**Linked list, is a sequential data structure, it's important to know which DS are sequential and which are not because that will present constraints for what it can and can't be used for**.
+In some envrionments, linked lists are dynamic, which we already have for free with JS, so we don't have to worry about it.
+- We can do quick deletions from the middle.
+- remember when we were talking about unshift and queues, we would maybe need to consider shifting everything else down, (linear operation if not optimized), but with linked lists we don't have to worry about that since we can just set the pointer to something else. 
+- if you know the item to delete in a linked list its a constant time operation.
+
+## Linked List Demo
+
+https://aryailia.blogspot.com/2017/04/javascript-inheritance-part-4-putting.html
+> Oh whoa. Weird, The article I referenced like 3 paragraphs before this is made by the same guy.
+
+### Linked List IRL
+![](https://user-images.githubusercontent.com/5563119/69566014-fb94bb80-0f6a-11ea-816d-7a8479f8f02c.png)
+
+ ✨ **So if you're thinking about a linked list in code, you could think about it as some nested objects**.
+ - Remember, when you are storing things in memory, the next is actually a pointer, but visually it might help to think of it as it's diagramed above.
+    - the very first thing in a linked list is the head.
+    - if you pass a linked list around, its often this is your entry point. 
+        - you have to start from thet head, or you could have a reference to the tail...
+    - BUT, a linked list, a **singly linked list**, only points one direction, so you can't go backwards. 
+        - so you start from the head, you go one direction, because the next points, you have things you can look at: 
+            - the value 
+            - or the next
+        - if it's the end(next), it's null.
+        - when we get to the tail, we don't know what's behind it right, we don't have a previous, right?
+        - If we did have a previous pointer, that pointed backwardfs, then we would have a **doubly linked list**
+        - doubly linked lists are useful if you ever want to start from the end and traverse backwards. 
+    - BUT often, you will ask thew interviewer, "Can I use a doubly linked list?" 
+        - often the answer is no, bc they want you to do something tricker than that 
+        - but you should always ask since this shows that you are aware that you know that linked lists can be singly and doubly
+    - AND all this is, for doubly linked lists, is that you just have another property on your node
+    - ✨ So each piece of your linked list, each of these circles (in the interactive), we call a **node**. That is a reference to the fact that a linked list is actually a graph. It's just a particular type of graph.
+        - so a doubly linked list, will have nodes with 3 values: 
+            1) The value of that node
+            2) the next property: which holds a pointer to the next node
+            3) the previous property: could hold a pointer to null or maybe the tail
+    - if you want to change where the linked list goes, you can simply reassign the next property to point to something else. 
+
+## Link List Use Cases
+
+A common example for a linked list in real life is:
+    - is the least recently used cache, which means its used for recent searches
+    - anything that says like popular videos
+    - where you have some amount of space allocated, and as you add new searchs for this data structure, once you reach capcity, it needs to have an exit right?
+    - hash tables, use linked lists under the hood. 
+
+A pseudocode of a doubly linked list...
+```javascript
+const linkedlist = {
+    head: {
+        value: 1,
+        next: {
+            value: 2,
+            next: {
+                value: 3,
+                next: null
+            }
+        }
+    }
+}
+{
+    value: 1,
+    next: {POINTER},
+    previous: {POINTER}
+}
+```
+- we use null to `null` and not `undefined` bc we want other programmers to know we explicitly set that value to `null`. 
+- so for next, the pointer points to the next node, it points to an object, doesn't point to the objects value.
+
+## Draw Stacks, Queues & Linked Lists
+Without looking up anything, draw the following data structures:
+- Stack
+- Queue
+- Linked List 
+
+## Hash Tables
+
+![](https://user-images.githubusercontent.com/5563119/69568651-dc009180-0f70-11ea-907b-0055eee36566.png)
+
+**Hash table**: organizes data for quick loop up on values for a given key.
+| Pros          | Cons                       |
+|---------------|----------------------------|
+| Fast lookups  | Slow worst-case lookups    |
+| Flexible keys | Unordered                  |
+|               | Single directional looksup |
+
+- So a hash table is not ordered, so we don't sort hash tables (you could but we typically don't)
+- ✨ if you need something with an order, this is not the data structure you would choose 
+- ✨ but it is really good for fast lookups and having keys that are flexible
+
+### Hash tables are essentially just objects
+With a hash table, depending on the underlying, depending on the interface, at the very least your keys can be strings.
+    - but with new ES6 data structures, we can also store functions and objects as keys if use like a set or a map data structure
+    - the interence there is that a hash table implementation in JavaScript, is an object, is a map, is a set. 
+        - there are underlying differences between maps, sets, objects, but the underlying idea is the same:
+            - quick lookup
+            - flexible keys that can be just more than numbers
+
+### So how does this work? 
+We need to translate our keys into some memory adddress bc we need something that can take us directly there, when we are looking for something
+we have to know the physical location somewhere or whether it is on disk or in memory. You can think of it as being a formula that is just like, hey, reaching over and pointing somewhere specific right, without having to loop through all of these memory spaces to find a particular value. 
+
+So when we think of a constant time lookup, which means we go directly to the place that its stored, we need to somehow mathematically calculate that location. So that formula can be very complex, but we can abstratct it away just to understand how it works and the core of it is a **hashing function**.
+
+The **hashing function** takes the key, in thie case we are looking at strings. It'll take a string and it's gonna hash it to a numerical value that in our case is going to be an index of an array, but under the hood it might be a memory address, or something.
+
+And so hashing function is just a function. For every same input, it always gives the same output. That is the property of a hashing function.   
+- hashing used for security/encryption, git, etc. 
+- very similar concept where we are hashing some numerical value in some range and the rnage is the size of our **hash table**.
+- in the diagram, our hash table is the size 25.
+    - so our hashing function, no matter what we give it is always going to give us a value between 0 and 25.
+- the implementor of the hash table specifies the range, when using it you don't have to know it. 
+    - as the implementor, if you hash table becomes full you need to make it bigger. Many ways to do this but typically..
+        - once your hash table is 50% full you want to double it (this is found to be mathematically the most efficient)
+        - once you double it, you rehash those values to the new hash table size (0-50) so they get redistributed. 
+    - the hash funtion should take the size of the table as an input.
+
+### Why double when we hit half fullness?
+- White papers on this topic as why its mathematically optimal...
+- All kinds of different optimizations for specific use cases
+- its half because its the most efficient on average, how they got to the half is based on how many collisions would happen if your'e more than half full.
+    - since our hashing function only gives us from 0 to 25, there's a very high chance that it happens a lot, that for different keys you get the same hash, e.g. Anita and Antonio both hash to 0, we call this a **collision**. and when we have a collision, if we have many collisions, that could effect our runtime for a lookup 
+    - when we think of a hash table we think of this concept of the average case, in a lot of our time complexity we think about the worst case, for hash tables we think about the average case because the chance of the worst case happening are so slim that we don't even worry about it
+        - its why we say its constant time even though if we wanted to find Christiano:
+            1) we would have to go to tihs index, 2, you can imagine our hash table as an array, and the value of the array has a linked list (it could be an array, but this implementation is a LL)
+                ✨ **Link lists are a commmon way of how to deal with hash table collisions**
+            2) so now we need to find Christiano, we look at Charles, Cortazar, then Christino.
+    - A student asks why there collisions in the first place
+    A: Because whatever implementation of the hash function is giving the same value, it has to be between 0 and 25. Like imagine our hash function here, just took the JS unicode characters, added them up and got the mod value, to provide the hash, there are going to be a lot of strings that create collisions.
+    - you will likely not be asked to implement your own hashing function, like random number generators, you should be able to reasonable about them, but creating proper ones is a pretty tough problem to solve.
+    - the important part of the hash: if you put in the same string you want the same hash value everytime.
+### Review:
+3 Main things we touched on in the above:
+1) Hashing function and how it works
+2) Collisions how they work
+3) Resizing and when to resize 
+
+We can use the keys to look it up so we dont have to understand the range of the hash table, we just interact a hash table just as we would an object.
+
+## Hash Tables Uses Cases, Arrays & Strings
+![](https://user-images.githubusercontent.com/5563119/69573822-b3ca6000-0f7b-11ea-962a-ce6b87136c85.png)
+
+Most used to regular JS objects.  
+    - ES6 introduces Maps and Sets
+
+A **Set** doesn't save a value, it just saves the property name.  
+- so like this idea of a key value pari, it's only a key for a set.
+- but the key can be a function, object, anything, whereas a regular object could only be a string if you a pass a number to an object, that property name is stringified.
+
+A **Map** is a like a combination of a set and an object because you still have a key value pair but it can save any data type as a proeprty...
+- has key value pair
+- can have any data type as the key. 
+- like an extension of an object 
+
+The interface for how you interact with a map and a set is a little different ... like you don't use the dot notation or bracket notation like you would with an object. Instead you use things like `.has` or `.get` and `.set` and things like that.
+
+While the interface might differ, the time complexity in terms of insertion and retrieval are all constant time. Under the hood they are implemented as a hash table.
+
+✨✨ **When you're think about optimizing a problem that requires a fast lookup, your mind should always think: hash table.**
+- And when you think hash table, and you're using ES6 (which you should be doing), you want to consider, okay what is the appropriate data structure, is it just a regular object? 
+    - Is it a map? like do I have to save functions as properties?
+    - or is it a set? Like do I even need a key value , maybe I just need a key?
+
+## Arrays and Strings 
+![](https://user-images.githubusercontent.com/5563119/69575461-27ba3780-0f7f-11ea-93a4-9e201b1b32a6.png)
+
+When we think about strings like previously mentioned we should think about them as arrays of characters. 
+- strings are not mutable which means that if you change as string you're really copying a new string with that change
+    - if you are doing any string operation that is changing that string (like slicing), keep in mind that you are copying that string
+        - keep in mind space complexity implications
+        - ✨ like if you are trying to do something in constant space involving strings, you need to use an array and then you would need to do swapping versus creating a new string every time. 
+    - you can look through a string, but in an array, if you loop through an array, and you want to change array at `i` to a different value, you could say array at i equals 2, and you would have an array of all twos.
+    - if you did string at i, and tried to swap out values, you couldn't, strings are immutable. 
+
+If working with strings, often Bianca just splits into an array, then you have a lot of array methods to work with.
+
+### Arrays good/bad for?
+- good for looking up by key
+- by appending data in constant time
+- however, they have slow middle inserts/deletes
+
+When we think abour arrays we think about contiguous blocks of memory, we also talk abotu a dynamic array which you can very easily resize. JS only has dynamic arrays. We dont have to worry about allocating more memory for our arrays.
+
+
+ 

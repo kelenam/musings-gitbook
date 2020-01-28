@@ -6,11 +6,11 @@ metaTitle: "Space & Time Complexity: Introduction to A Practical Guide to Algori
 import Collapsible from 'react-collapsible';
 
 ## Introducing Space & Time Complexity
-Time Complexity is how we reasonable about the speed of an algorithm.
+**Time Complexity** is how we reasonable about the speed of an algorithm.
 - faster algorithms mean we process things faster.
 - we can really only estimate how fast an algorithm is going to be
 
-What makes an agorithm fast?
+### What makes an agorithm fast?
 
 <Collapsible trigger="What makes an algorithm fast, perhaps, more importantly what makes it slow?" transitionTime="135">
     It's space and time complexity. How much memory is used? How many primitive operations are there? 
@@ -20,7 +20,7 @@ What makes an agorithm fast?
 **Space Complexity** How much memory is used?
 **Time Complexity** How many primitive operations are executed?
 We want to be thinking about this with respect to input size
-... and assuming worst case scenarios
+... and assuming worst case scenarios.
 
 - Wed expect that the more data we have, the longer it will take to figure out the min and max required for the range.
 - Thinking about things in proportions
@@ -34,8 +34,8 @@ For this approach we would need some sort of table
 var hotels = [
     {price: 200, brand: 'Estin'},
     {price: 50, brand: 'Best Eastern'},
-    ...
-    ...
+    //...
+    //...
     {price: 175, brand: 'Radishin'}    
 ]
 ```
@@ -49,7 +49,7 @@ So we would keep track comparing each number one against the other right, if we 
 
 ### Approach #2: Track min & Max
 Using two loops (not nested), we are doing opeartions on each item one at a time, but separtely.
-We consider this 2n b/c as the data grows, the amount of work increases by 2
+We consider this *2n* b/c as the data grows, the amount of work increases by 2
 - this is shorter than the first as less comparisons are being made 
 
 ### Approach #3: Sorted List
@@ -62,7 +62,7 @@ If it was already sorted we'd only need to look at the start and the end.
 | 2    | Sorted list, find first and last |
 
 #### Review: 
-- If we compare all the numbers to one another in that nested loop situation that's going to be n^2, n squared, because as our n increases, each loop is also giong to increase, so we need to multiply it by itself.
+- If we compare all the numbers to one another in that nested loop situation that's going to be *n^2*, n squared, because as our n increases, each loop is also giong to increase, so we need to multiply it by itself.
 - Any time you have one loop and it's looping from the beginning to the end of n, that's gonna be just n, right. If it's 10, you loop 10 times.
 - In the second example we have 2 loops that aren't inside of each other, so 2 just wait 2n times for two loops.
 - 2 just go to the beginning or the end which is just nice.
@@ -70,15 +70,18 @@ If it was already sorted we'd only need to look at the start and the end.
 ## Big O Notation
 ![](https://user-images.githubusercontent.com/5563119/69473006-28c44c80-0d66-11ea-96d4-e1d76e916057.png)
 - We talk about time complexity using something called big O notation.
-
-<Collapsible trigger="How do we talk about time complexity?" transitionTime="135">
-    We do so with big O notation.
-</Collapsible>
-
 - We would say, this is O of n to the 2, or O of n squared or quadratic time, that's how we talk about it.
 - The next logical question, might be, what's with these 2s? This one just says 1, that one just says n, then we have 2nd, then we have 2.
     - ✨ When we are thinking about time complexity we don't think about every small detail, we want to have the big picture estimation so we drop what we call non-significant numbers.
 - Fastest are constant time. Slowest are exponential. 
+
+<Collapsible trigger="How do we talk about time complexity?" transitionTime="135">
+    We do so with big O notation.
+</Collapsible>
+<Collapsible trigger="When speaking about time complexity, which operation times matter?" transitionTime="135">
+    Only the big picture estimations. If you have like 4 constant time operations and then a linear operation and then something that is quadratic. You only care about the quadratic time, so the Big 0 of that algorithm 
+    would be its worst performing operation time: n^2. or O(n^2).
+</Collapsible>
 
 ![](https://user-images.githubusercontent.com/5563119/69473077-0848c200-0d67-11ea-98db-6503d16fa83d.png)
 - Algorithmic correctness is the idea that it's better to have some solution that's good enough versus no solution at all.
@@ -136,11 +139,18 @@ Given what we have discovered about time complexity, can you guess how we can ca
     - so are we for every loop creating a new array, so that's like n times the length of the array of space every time. 
     - or if we're what we call sorting in place, where we don't make a new array , and then our space complexity is constant even though our algorithm's time complexity can be be something different. 
    
-✨ Things to think about when you're thinking about space complexity is:
+- ✨Things to think about when you're thinking about space complexity is:
     - are you making a new data structure?
     - how often are you doing it in comparison to your input 
     - and also with your callstack, if you're recursion, that's another thing to consider is that stack is also taking place in memory 
         - just something to be aware of when you're talking about space complexity with recursion. 
+- <Collapsible trigger="What are some things to think about when you're thinking about space complexity?" transitionTime="135">
+    <ul>
+        <li> are you making a new data structure?</li> 
+    </ul>
+</Collapsible>
+
+
 
 Recap:
 **Time complexity** of an algorithm signifies the total time requried by the program to run to completion. The time complexity of algorithms is most commonly expressed using the **big O notation**.

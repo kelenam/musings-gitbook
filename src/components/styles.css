@@ -1,5 +1,6 @@
 /* @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'); */
 @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap');
+@import url('http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700');
 
 * {
   margin: 0;
@@ -42,7 +43,6 @@ a {
   transition: color 0.15s;
   color: #663399;
 }
-
 
 body {
   font-family: 'Poppins';
@@ -327,14 +327,21 @@ pre {
   -webkit-padding-start: 40px;
   -moz-padding-start: 40px;
   -o-padding-start: 40px;
-  margin: 24px 0px;
-  padding: 0px 0px 0px 2em;
+  /* margin: 24px 0px;
+  padding: 0px 0px 0px 2em; */
 }
 
 .mainWrapper ul li, .mainWrapper ol li {
   font-size: 1em;
   line-height: 1.8;
   font-weight: 400;
+  padding: 0px;
+  margin: 0px;
+}
+
+.mainWrapper p {
+  padding: 0px;
+  margin-bottom: 2px;
 }
 
 /* Header section ends here */
