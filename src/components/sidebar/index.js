@@ -66,7 +66,7 @@ const Sidebar = styled('aside')`
   /* Safari 5.1, Chrome 10+ */
   background: -webkit-linear-gradient(to top, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
   /* Firefox 3.6+ */
-  background: -moz-linear-gradient(to top, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
+  background: -moz-linear-gradient(-120deg, #2b5876 0%, #4e4376 100%);
   /* IE 10 */
   background: -ms-linear-gradient(to top, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
   /* Opera 11.10+ */
