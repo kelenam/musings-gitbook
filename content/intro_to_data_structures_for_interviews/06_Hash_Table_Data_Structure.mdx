@@ -4,7 +4,7 @@ title: "Hash Table Data Structures"
 import Collapsible from 'react-collapsible';
 
 ## Hash Table Exercise
-```js
+```JavaScript
 /** Class representing a Hash Table */
 
 class HashTable {
@@ -80,7 +80,7 @@ Then for retieval, if you're going to handle collisions, which needs to handle r
 
 
 
-```js
+```JavaScript
 /** Class representing a Hash Table */
 
 class HashTable {
@@ -166,7 +166,7 @@ myHashTable.retrieve('one');
 // -> 1
 ``` 
 > Let's try taking what we have and implementing instead of arrays, Implemeting Linked Lists...(revisit this)
-```js
+```JavaScript
 // So first we would need to make our Linked List Class
 class LinkedList() {
     constructor() {
@@ -174,7 +174,6 @@ class LinkedList() {
         this.head = { value, next: null };
         this.tail = this.head;
     }
-
     insert() {
         // this value is going to be appended to the tail right, wrapped with our encapsulated data structure? 
         const node = { value, next: null};
@@ -183,7 +182,6 @@ class LinkedList() {
         // now we need to set the newest node as the tail, because the current tail is no loner going to be be the tail...
         this.tail = node;
     }
-
     remove(node) {
         // we need to check is head/ tail 
         // how about it just breaks the chain whereever
@@ -194,7 +192,6 @@ class LinkedList() {
     * @return {*} - the removed value
     */
     removeTail() {
-
     }
     /*
     * Searches the linked list and returns true if it contains the value passed
@@ -202,7 +199,6 @@ class LinkedList() {
     * @return {boolean} - true if value is found, otherwise false
     */
     contains(value) {
-
         if (isTail)
     }  
     /*
@@ -224,14 +220,14 @@ class LinkedList() {
         // what do we do with linked lists of 1 node?
         // I'm inclined
         return node.next === null ? true : false;
-        
         // return boolean if a node is the tail.
         // do we need 
     }
-
 }
+```
 
-/** Class representing a Hash Table */
+```JavaScript
+/* Class representing a Hash Table */
 
 class HashTable {
   constructor(size = 10) {

@@ -1,0 +1,28 @@
+---
+title: "Browser environment, specs"
+metaTitle: "Note Compilation from JavaScript.Info |  Part 2: Browser: Document, Events, Interfacess | Browser environment, specs"
+metaDescription: "Note Compilation from JavaScript.Info |  Part 2: Browser: Document, Events, Interfaces"
+---
+import {Highlight, Keywords} from 'react-marker'
+
+
+## Browser environment, specs
+
+The JavaScript language was initially created for web browsers. Since then it has evolved and become a language with many uses and platforms.
+
+A **platform** may be a browser, or a web-server or another host, even a coffee machine. Each of them provides platform-specific functionality. The JavaScript specification calls that a **host environment**. 
+
+A host environment provides own objects and functions additional to the language core. Web browsers give a means to control web pages. Node.js provides server-side features, and so on.
+
+Here’s a bird’s-eye view of what we have when JavaScript runs in a web-browser:
+
+![](https://user-images.githubusercontent.com/32684636/73914983-34a4b280-486f-11ea-9f29-2b3d5e4b89ae.png)
+
+There’s a “root” object called `window`. It has two roles:
+
+1. First, it is a global object for JavaScript code, as described in the chapter Global object.
+2. Second, it represents the “browser window” and provides methods to control it.
+
+For instance, here we use it as a global object:
+
+ 

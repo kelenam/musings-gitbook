@@ -91,11 +91,18 @@ const config = {
 	"sidebar": {
 		"forcedNavOrder": [
 			"/introduction",
-    		"/codeblock"
+    		"/codeblock",
+			"/the_javascript_language",
+			"/browser_documents-events-interfaces"
 		],
     	"collapsedNav": [
 			  "/codeblock",
-			  "/practical_guide_to_algorithms"
+			  "/practical_guide_to_algorithms",
+			  "/intro_to_data_structures_for_interviews",
+			  "/just_javascript",
+			  "/javascript-info",
+			  "/01_the_javascript_language",
+			  "/low-level_javascript"
     	],
 		"links": [
 			{ "text": "", "link": ""},

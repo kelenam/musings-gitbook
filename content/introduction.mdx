@@ -1,12 +1,14 @@
 ---
-title: "Syntax Highlighting"
-metaTitle: "Syntax Highlighting is the meta title tag for this page"
-metaDescription: "This is the meta description for this page"
+title: "Introduction"
+metaTitle: "This is the title tag of this page"
+metaDescription: "This is the meta description"
 ---
 import Collapsible from 'react-collapsible';
+import {Highlight, Keywords} from 'react-marker';
 
-The following is a code block with JavaScript language syntax highlighting.
+The following is a collection of syntax features and code snippets as reference used in this gitbook. Below is a code block with JavaScript language syntax highlighting.
 
+## Codeblock 
 ```javascript
 import React from 'react';
 
@@ -45,7 +47,7 @@ The following is a code block with diff. Lines with `+` highlighted in green sha
 ```javascript react-live=true
 <button className={'btn btn-default'}>Change my text</button>
 ```
-
+## React Collapsible
 
 <Collapsible trigger="😤 Start here" transitionTime="135">
     <p>This is the collapsible content. It can be any element or React component you like.</p>
@@ -54,3 +56,16 @@ The following is a code block with diff. Lines with `+` highlighted in green sha
     </pre>
     <p>It can even be another Collapsible component. Check out the next section!</p>
 </Collapsible>
+
+## React Marker
+https://reactjsexample.com/highlight-keywords-and-add-colors-to-your-text/  
+
+<br />
+<Keywords
+      text={`Keywords are highlighted arbitrarily. The dictionary is likely set in state of component.`}
+      maxKeywords={999}
+      color="mistyrose"
+/>  
+<br /> 
+
+<Highlight text="the following text should be completely highlighted" color="hsl(60, 91%, 83%)"/>
